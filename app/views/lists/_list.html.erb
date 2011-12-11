@@ -1,0 +1,6 @@
+<div>
+  <h2><%= list.title %></h2>
+  <p>public: <%= list.public %></p> 
+  <%= link_to t(:edit), edit_list_path(list) %>
+  <%= link_to t(:share), new_share_path %>
+</div>

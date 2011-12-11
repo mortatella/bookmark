@@ -1,0 +1,18 @@
+<div class="bookmark_item">
+  <h2><%= bookmark.title %></h2>
+  <p><%= link_to bookmark.url, bookmark.url%></p>
+  <div class="lists"
+    <ul>
+      <% bookmark.lists.each do |l|%>
+        <li><%= l.title %></li>
+      <%end%>
+    </ul>
+  </div>
+  <div class="tags">
+    <ul class="tags">
+      <% bookmark.tags.each do |t|%>
+        <li><%= t.title %></li>
+      <%end%>
+    </ul>
+  </div>
+</div>

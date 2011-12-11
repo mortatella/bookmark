@@ -1,0 +1,2 @@
+[1m[31m    conflict[0m  config/initializers/devise.rb
+Overwrite /Users/martin/Documents/FH/MMT/Web Technologies/project/application/bookmakr/config/initializers/devise.rb? (enter "h" for help) [Ynaqdh] 
