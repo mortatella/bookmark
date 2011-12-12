@@ -18,11 +18,3 @@ test:
   pool: 5
   timeout: 5000
 
-:production:
-  adapter: mysql2
-  encoding: utf8
-  reconnect: false
-  database: redpill_production
-  pool: 5
-  username: redpill
-  password: 6sdfwUc
