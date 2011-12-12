@@ -32,4 +32,4 @@ require "bundler/capistrano"
 
 load 'deploy/assets'
 
-after "deploy:update_code", "deploy:copy_config"
+#after "deploy:update_code", "deploy:copy_config"
