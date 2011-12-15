@@ -52,6 +52,16 @@ ActiveRecord::Schema.define(:version => 20111215093712) do
 
   add_index "lists", ["user_id"], :name => "index_lists_on_user_id"
 
+  create_table "manifests", :force => true do |t|
+    t.integer  "bookmark_id"
+    t.integer  "list_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "manifests", ["bookmark_id"], :name => "index_manifests_on_bookmark_id"
+  add_index "manifests", ["list_id"], :name => "index_manifests_on_list_id"
+
   create_table "shares", :force => true do |t|
     t.boolean  "write"
     t.integer  "list_id"
