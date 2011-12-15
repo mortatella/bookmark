@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111211161040) do
+ActiveRecord::Schema.define(:version => 20111215093712) do
 
   create_table "bookmarks", :force => true do |t|
     t.string   "url"
@@ -20,6 +20,16 @@ ActiveRecord::Schema.define(:version => 20111211161040) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "bookmarks_lists", :force => true do |t|
+    t.integer  "bookmark_id"
+    t.integer  "list_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "bookmarks_lists", ["bookmark_id"], :name => "index_bookmarks_lists_on_bookmark_id"
+  add_index "bookmarks_lists", ["list_id"], :name => "index_bookmarks_lists_on_list_id"
 
   create_table "bookmarks_tags", :force => true do |t|
     t.integer  "bookmark_id"
@@ -42,26 +52,16 @@ ActiveRecord::Schema.define(:version => 20111211161040) do
 
   add_index "lists", ["user_id"], :name => "index_lists_on_user_id"
 
-  create_table "manifests", :force => true do |t|
-    t.integer  "bookmark_id"
-    t.integer  "list_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "manifests", ["bookmark_id"], :name => "index_manifests_on_bookmark_id"
-  add_index "manifests", ["list_id"], :name => "index_manifests_on_list_id"
-
   create_table "shares", :force => true do |t|
     t.boolean  "write"
     t.integer  "list_id"
-    t.integer  "bookmark_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "shares", ["bookmark_id"], :name => "index_shares_on_bookmark_id"
   add_index "shares", ["list_id"], :name => "index_shares_on_list_id"
+  add_index "shares", ["user_id"], :name => "index_shares_on_bookmark_id"
 
   create_table "tags", :force => true do |t|
     t.integer  "user_id"
@@ -89,10 +89,10 @@ ActiveRecord::Schema.define(:version => 20111211161040) do
     t.string   "firstName"
     t.string   "lastName"
     t.string   "username"
-    t.integer  "default_list"
+    t.integer  "default_list_id"
   end
 
-  add_index "users", ["default_list"], :name => "index_users_on_default_list"
+  add_index "users", ["default_list_id"], :name => "index_users_on_default_list"
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 

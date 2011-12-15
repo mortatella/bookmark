@@ -1,7 +1,7 @@
 class Bookmark < ActiveRecord::Base
+  
   has_and_belongs_to_many :tags
-  has_many :manifests
-  has_many :lists, :through=>:manifests
+  has_and_belongs_to_many :lists
   
   def self.public
     Bookmark.all
@@ -12,11 +12,12 @@ class Bookmark < ActiveRecord::Base
   end
   
   def self.public_bookmarks
+    
     bookmarks = []
-    List.public_lists.each do |l|
-      bookmarks << l.bookmarks
-    end
-    bookmarks.uniq
+    
+    List.public_lists.each {|l| bookmarks = bookmarks | l.bookmarks}
+    
+    return bookmarks
   end
   
 end

@@ -8,10 +8,10 @@ class BookmarksController < ApplicationController
   end
   
   def index
-    if ! :authenticate_user?
-      @bookmarks = current_user.bookmarks
+   if !signed_in?
+       @bookmarks = Bookmark.public_bookmarks
     else
-      @bookmarks = Bookmark.public_bookmarks
+      @bookmarks = current_user.bookmarks
     end
   end
 
@@ -25,22 +25,23 @@ class BookmarksController < ApplicationController
 
     b = Bookmark.new(:title=>params[:bookmark][:title],:description=>params[:bookmark][:description], :url=>params[:bookmark][:url])
     
-    b.lists << current_user.lists.first
-    
+    b.lists << current_user.default_list
+   
+
     if !params[:bookmark][:list_ids].nil?
-      params[:bookmark][:list_ids].each {|l| b.lists << List.find(l)}
+      params[:bookmark][:list_ids].each do |l|
+         b.lists << List.find(l.first)
+      end
     end 
     
     tags = params[:bookmark][:tagstring].split(',')
     
-    
-    
     if !tags.nil?
-      user_tags = Tag.tags_of_user(current_user.id)
-              
+
       tags.each do |t|
         t = t.strip
         t = t.downcase
+        
         existing_tags = Tag.find_tag_of_user_by_title(current_user.id, t)
         
         if existing_tags.empty?

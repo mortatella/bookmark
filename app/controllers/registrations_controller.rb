@@ -1,7 +1,8 @@
 class RegistrationsController < Devise::RegistrationsController
   def create
     super
-    @user.default_list = List.new(:title=>"default list", :description=>"users default list", :public=>false)
-    @user.save!
+    @user.default_list = @user.lists.create(:title=>@user.username+"s default list",:description=>"Default list of "+@user.username)
+    @user.save
   end
+  
 end

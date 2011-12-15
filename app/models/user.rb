@@ -8,8 +8,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :firstName, :lastName, :username
   
 
-  
-  has_one  :list, :foreign_key => :default_list
+  belongs_to :default_list, :foreign_key=>:default_list_id, :class_name=>'List'
   has_many :lists
   has_many :bookmarks, :through=>:list
   has_many :shares
@@ -26,12 +25,9 @@ class User < ActiveRecord::Base
     tmp = []
     lists.each do |l|
       if(l.bookmarks)
-        l.bookmarks.each do |b|
-          tmp << b
-        end
+        tmp = tmp | l.bookmarks
       end
     end
-    
-    tmp.uniq
+   return tmp
   end
 end

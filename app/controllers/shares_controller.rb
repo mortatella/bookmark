@@ -12,7 +12,15 @@ class SharesController < ApplicationController
   end
 
   def create
-    @share = Share.new
+    @share = Share.new(params[:share])
+    list = List.find(params[:list_id])
+    
+    params[:user][:user_id].each do |u|
+      user = User.find(u.to_i)
+      share = list.shares.create(params[:share])
+      share.user = user
+      share.save
+    end
   end
 
   def edit
@@ -25,10 +33,6 @@ class SharesController < ApplicationController
     @share = Share.new
     @available_users = User.all
     @shareable_lsits = current_user.lists
-  end
-  
-  def new_share_for_list(list_id)
-    
   end
 
 end

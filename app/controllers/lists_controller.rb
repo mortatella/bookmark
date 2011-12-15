@@ -1,6 +1,6 @@
 class ListsController < ApplicationController
 
-  before_filter :get_list, :only=>[:show, :edit, :update, :destroy]
+  before_filter :get_list, :only=>[:show, :edit, :update, :destroy, :share]
   
   def get_list
     @list = List.find(params[:id])
@@ -18,11 +18,9 @@ class ListsController < ApplicationController
   end
 
   def create
-    @list = List.new(params[:list])
-    @list.user = current_user
-    @list.save
+    current_user.lists.create(params[:list])
     
-    redirect_to lists_path
+    redirect_to bookmarks_path
   end
 
   def edit
@@ -37,5 +35,11 @@ class ListsController < ApplicationController
   def new
     @list = List.new
   end
-
+  
+  def share
+    @share = @list.shares.new()
+    @users = User.all
+    @users.delete(current_user)
+  end
+  
 end
