@@ -3,12 +3,15 @@
 <head>
   <title>Bookmakr</title>
   <%= stylesheet_link_tag    "application" %>
+  <%= stylesheet_link_tag    "page" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= yield %>
-
+  <div id="page">
+    <div id="content">
+      <%= yield %>
+    </div>
+  </div>
 </body>
 </html>

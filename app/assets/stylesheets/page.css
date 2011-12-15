@@ -1,0 +1,15 @@
+body, html
+{
+  margin: 0px;
+  padding: 0px;
+}
+
+div#page
+{
+	width: 960px;
+	margin: 0 auto;
+}
+div#content
+{
+  background: #123;
+}
