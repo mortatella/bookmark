@@ -13,8 +13,7 @@ class BookmarksController < ApplicationController
        @tags = Tag.public_tags
     else
       @bookmarks = current_user.bookmarks
-      @tags = []
-      @bookmarks.each {|b| tags = tags | b.tags}
+      @tags = current_user.tags
     end
     
     
@@ -42,20 +41,20 @@ class BookmarksController < ApplicationController
     tags = params[:bookmark][:tagstring].split(',')
     
     if !tags.nil?
-
       tags.each do |t|
         t = t.strip
         t = t.downcase
         
-        existing_tags = Tag.find_tag_of_user_by_title(current_user.id, t)
+        tag = Tag.find_by_title(t)
         
-        if existing_tags.empty?
-          new_tag = Tag.new(:title=>t, :user_id=>current_user.id)
-          new_tag.save
-          b.tags << new_tag
+        if tag.empty?
+          tag = current_user.tags.create(:title=>t)
         else
-          b.tags << existing_tags.first
+          if !current_user.tags.index(tag).nil?
+            current_user.tags << tag.first
+          end
         end
+        b.tags << tag
       end
     end
     
