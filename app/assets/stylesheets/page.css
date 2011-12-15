@@ -11,5 +11,10 @@ div#page
 }
 div#content
 {
-  background: #123;
+  background: #fff;
+}
+
+div#franz_is_gay
+{
+  color:pink;
 }
