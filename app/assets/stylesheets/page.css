@@ -6,15 +6,17 @@ body, html
 
 div#page
 {
-	width: 960px;
-	margin: 0 auto;
+  width: 960px;
+  margin: 0 auto;
+  
 }
 div#content
 {
-
+  background: #ddd;
+  padding:20px;
 }
 
-div#franz_rocks
+div#main_menu
 {
-  penis-length: 25;
+  background: #ccc;
 }

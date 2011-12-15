@@ -1,0 +1,11 @@
+#main_menu ul
+{
+  margin: 0px;
+  padding: 0px;
+}
+
+#main_menu ul li
+{
+  display: inline;
+  list-style: none;
+}

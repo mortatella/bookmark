@@ -5,4 +5,8 @@ class RegistrationsController < Devise::RegistrationsController
     @user.save
   end
   
+  def show_bookmarks
+    @bookmarks = current_user.bookmarks
+  end
+  
 end

@@ -1,6 +1,8 @@
 <div>
   <h2><%= list.title %></h2>
-  <p>public: <%= list.public %></p> 
+  <p>public: <%= list.public %></p>
+  <div>
+  </div> 
   <%= link_to t(:edit), edit_list_path(list) %>
   <%= link_to t(:share), share_list_path(list) %>
 </div>

@@ -7,6 +7,7 @@ Bookmakr::Application.routes.draw do
   resources :shares 
   
   devise_for :users, :controllers => {:registrations => "registrations"}
+  
 
   root :to => 'bookmarks#index'
   

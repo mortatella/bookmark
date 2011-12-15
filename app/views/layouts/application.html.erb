@@ -9,6 +9,16 @@
 </head>
 <body>
   <div id="page">
+    <div id="top">
+      <div id="main_menu">
+        <%= if !signed_in? 
+              render "default_menu" 
+            else
+              render "user_menu"
+            end
+        %>
+      </div>
+    </div>
     <div id="content">
       <%= yield %>
     </div>
