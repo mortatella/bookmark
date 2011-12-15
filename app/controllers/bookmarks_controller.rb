@@ -13,6 +13,9 @@ class BookmarksController < ApplicationController
     else
       @bookmarks = current_user.bookmarks
     end
+    
+    @tags = []
+       @bookmarks.each {|b| tags = tags | b.tags}
   end
 
   def show

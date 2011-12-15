@@ -1,4 +1,7 @@
-<div>
+<div class="tags">
+  <%= render @tags %>
+</div>
+<div class="bookmarks">
   <%= render @bookmarks %>
 </div>
 <%= link_to "log out", destroy_user_session_path, :method=>:delete %><br>
