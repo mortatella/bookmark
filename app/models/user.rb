@@ -21,6 +21,16 @@ class User < ActiveRecord::Base
     return w_lists
   end
   
+  def find_bookmarks_with_tag(tag)
+    result = []
+    bookmarks.each do |b| 
+      if !b.tags.index(tag).nil?
+        result << b
+      end
+    end
+    return result
+  end
+  
   def bookmarks
     tmp = []
     lists.each do |l|
@@ -30,4 +40,29 @@ class User < ActiveRecord::Base
     end
    return tmp
   end
+  
+  def public_bookmarks
+    b = []
+    lists.each do |l|
+      if l.public
+        b = b | l.bookmarks
+      end
+    end
+    
+    return b 
+  end
+  
+  def public_tags
+    t = []
+    lists.each do |l|
+      if l.public
+        l.bookmarks.each do |b|
+          t = t | b.tags
+        end
+      end
+    end
+    
+    return t
+  end
+  
 end

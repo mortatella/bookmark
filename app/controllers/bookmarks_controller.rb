@@ -8,16 +8,8 @@ class BookmarksController < ApplicationController
   end
   
   def index
-   if !signed_in?
-       @bookmarks = Bookmark.public_bookmarks
-       @tags = Tag.public_tags
-    else
-      @bookmarks = current_user.bookmarks
-      @tags = current_user.tags
-    end
-      @bookmarks.sort { |a,b| b.created_at <=> a.created_at}
-      @tags.sort { |a,b| a.bookmarks.count <=> b.bookmarks.count}
-    
+    @bookmarks = Bookmark.public_bookmarks.sort { |a,b| b.created_at <=> a.created_at}
+    @tags = Tag.public_tags.sort { |a,b| a.bookmarks.count <=> b.bookmarks.count} 
   end
 
   def show
