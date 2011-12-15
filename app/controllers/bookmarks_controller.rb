@@ -3,7 +3,7 @@ class BookmarksController < ApplicationController
   before_filter :authenticate_user!, :except=>[:index]
   before_filter :get_bookmark, :only=>[:show, :edit, :update, :destroy]
   
-  def get_list
+  def get_bookmark
     @bookmark = Bookmark.find(params[:id])
   end
   
@@ -15,7 +15,8 @@ class BookmarksController < ApplicationController
       @bookmarks = current_user.bookmarks
       @tags = current_user.tags
     end
-    
+      @bookmarks.sort { |a,b| b.created_at <=> a.created_at}
+      @tags.sort { |a,b| a.bookmarks.count <=> b.bookmarks.count}
     
   end
 
@@ -65,6 +66,7 @@ class BookmarksController < ApplicationController
   end
 
   def edit
+  
   end
 
   def update

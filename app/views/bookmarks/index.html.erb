@@ -1,10 +1,11 @@
-<div class="tags">
+<div id="tags_wrapper">
   <%= render @tags %>
 </div>
-<div class="bookmarks">
+<div id="bookmarks_wrapper">
   <%= render @bookmarks %>
-</div>
 <%= link_to "log out", destroy_user_session_path, :method=>:delete %><br>
 <%= link_to "new Bookmark", new_bookmark_path %>
 <%= link_to "new List", new_list_path %>
 <%= link_to "show lists", lists_path %>
+</div>
+<div class="clear"></div>
