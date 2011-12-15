@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111215093712) do
+ActiveRecord::Schema.define(:version => 20111215171056) do
 
   create_table "bookmarks", :force => true do |t|
     t.string   "url"
@@ -52,16 +52,6 @@ ActiveRecord::Schema.define(:version => 20111215093712) do
 
   add_index "lists", ["user_id"], :name => "index_lists_on_user_id"
 
-  create_table "manifests", :force => true do |t|
-    t.integer  "bookmark_id"
-    t.integer  "list_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "manifests", ["bookmark_id"], :name => "index_manifests_on_bookmark_id"
-  add_index "manifests", ["list_id"], :name => "index_manifests_on_list_id"
-
   create_table "shares", :force => true do |t|
     t.boolean  "write"
     t.integer  "list_id"
@@ -74,14 +64,20 @@ ActiveRecord::Schema.define(:version => 20111215093712) do
   add_index "shares", ["user_id"], :name => "index_shares_on_bookmark_id"
 
   create_table "tags", :force => true do |t|
-    t.integer  "user_id"
     t.string   "title"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "tags", ["title"], :name => "index_tags_on_title", :unique => true
-  add_index "tags", ["user_id"], :name => "index_tags_on_user_id"
+
+  create_table "tags_users", :force => true do |t|
+    t.integer "tag_id"
+    t.integer "user_id"
+  end
+
+  add_index "tags_users", ["tag_id"], :name => "index_tags_users_on_tag_id"
+  add_index "tags_users", ["user_id"], :name => "index_tags_users_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false

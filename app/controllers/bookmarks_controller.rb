@@ -10,12 +10,14 @@ class BookmarksController < ApplicationController
   def index
    if !signed_in?
        @bookmarks = Bookmark.public_bookmarks
+       @tags = Tag.public_tags
     else
       @bookmarks = current_user.bookmarks
+      @tags = []
+      @bookmarks.each {|b| tags = tags | b.tags}
     end
     
-    @tags = []
-       @bookmarks.each {|b| tags = tags | b.tags}
+    
   end
 
   def show

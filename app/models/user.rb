@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   has_many :lists
   has_many :bookmarks, :through=>:list
   has_many :shares
-  has_many :tags
+  has_and_belongs_to_many :tags
   
   
   def writable_lists
