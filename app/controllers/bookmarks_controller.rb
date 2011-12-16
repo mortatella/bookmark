@@ -1,10 +1,29 @@
 class BookmarksController < ApplicationController
-
-  before_filter :authenticate_user!, :except=>[:index]
+  
   before_filter :get_bookmark, :only=>[:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, :except=>[:index]
+  before_filter :is_user_allowed_to, :except=>[:index, :new, :create]
   
   def get_bookmark
     @bookmark = Bookmark.find(params[:id])
+  end
+  
+  def is_user_allowed_to
+    allowed = false
+    if(!current_user.bookmarks.index(@bookmark).nil?)
+      allowed = true
+    else
+      write_shares = current_user.shares.find_all{|s| s.write == true}
+      write_shares.each do |s|
+        if @bookmark.lists.index(s.list)
+          allowed = true
+        end
+      end
+    end
+
+    if(!allowed)
+      redirect_to root_path
+    end
   end
   
   def index
@@ -67,6 +86,16 @@ class BookmarksController < ApplicationController
   def new
     @bookmark = Bookmark.new(:title=>DateTime.now, :url=>"http://www.derstandard.at")
     @availableLists = current_user.lists
+  end
+  
+  def user_bookmarks
+    if current_user == @user
+      @bookmarks = @user.bookmarks
+      @tags = @user.tags
+    else
+      @bookmarks = @user.public_bookmarks
+      @tags = @user.public_tags
+    end
   end
 
 end

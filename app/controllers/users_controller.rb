@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
   
-  before_filter :get_user, :only=>[:bookmarks]
+   before_filter :get_user, :only=>[:bookmarks]
   
   def get_user
     @user = User.find(params[:id])
   end
-
+  
   def bookmarks
     if current_user == @user
       @bookmarks = @user.bookmarks
@@ -17,5 +17,5 @@ class UsersController < ApplicationController
     
     @bookmarks.sort { |a,b| b.created_at <=> a.created_at}
     @tags.sort { |a,b| a.bookmarks.count <=> b.bookmarks.count}
-  end
+  end 
 end
