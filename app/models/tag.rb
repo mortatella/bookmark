@@ -17,5 +17,6 @@ class Tag < ActiveRecord::Base
   def title=(title)
     write_attribute(:title, title.downcase)
   end
+ 
     
 end

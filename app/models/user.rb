@@ -41,8 +41,8 @@ class User < ActiveRecord::Base
     bookmarks | shared_bookmarks
   end
   
-  def unique_tags
-    tags.uniq
+  def used_tags
+    tags.select{|t| (t.bookmarks & bookmarks).count > 0}.uniq
   end
   
 end
