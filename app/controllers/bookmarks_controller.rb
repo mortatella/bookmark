@@ -59,11 +59,11 @@ class BookmarksController < ApplicationController
         
         tag = Tag.find_by_title(t)
         
-        if tag.empty?
+        if tag.nil?
           tag = current_user.tags.create(:title=>t)
         else
           if !current_user.tags.index(tag).nil?
-            current_user.tags << tag.first
+            current_user.tags << tag
           end
         end
         b.tags << tag
