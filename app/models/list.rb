@@ -12,4 +12,8 @@ class List < ActiveRecord::Base
     where("public=?",true)
   end
   
+  def tags
+    bookmarks.collect { |b| b.tags }.flatten.uniq.sort { |a,b| a.bookmarks.count <=> b.bookmarks.count}
+  end
+  
 end
