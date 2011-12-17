@@ -9,6 +9,7 @@ Bookmakr::Application.routes.draw do
   resources :shares 
   
   match "/users/:id/bookmarks" => "users#bookmarks", :as=>"bookmarks_user"
+  match "/users/:id/sharedbookmarks" => "users#shared_bookmarks", :as=>"shared_bookmarks_user"
   
   devise_for :users, :controllers => {:registrations => "registrations", :sesions => "devise/sessions"}
 
