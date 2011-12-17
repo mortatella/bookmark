@@ -1,5 +1,5 @@
 <div id="tags_wrapper">
-  <%= render :partial=>"bookmarks/tags", :locals=>{:tags=>@tags} %>
+  <%= render :partial=>"bookmarks/tags", :locals=>{:tags=>@tags, :bookmarks=>@bookmarks} %>
 </div>
 <div id="bookmarks_wrapper">
   <%= render  @bookmarks %>

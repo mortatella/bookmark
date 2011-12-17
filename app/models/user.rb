@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
   end
   
   def find_bookmarks_with_tag(tag)
-    tags.select{|t| t.title=tag.title}.collect{|t| t.bookmarks}.flatten
+    tags.select{|t| t.title=tag.title}.collect{|t| t.bookmarks}.flatten.uniq
   end
   
   def shared_bookmarks
@@ -41,8 +41,8 @@ class User < ActiveRecord::Base
     bookmarks | shared_bookmarks
   end
   
-  def unique_tags
-    tags.uniq
+  def used_tags
+    tags.select{|t| (t.bookmarks & bookmarks).count > 0}.uniq
   end
   
 end
