@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   def bookmarks
     if current_user == @user
       @bookmarks = @user.own_and_shared_bookmarks
-      @tags = @user.tags
+      @tags = @user.unique_tags
     else
       @bookmarks = @user.public_bookmarks
       @tags = @user.public_tags
