@@ -66,10 +66,52 @@ class BookmarksController < ApplicationController
   end
 
   def edit
-  
+    @tags = ""
+    @bookmark.tags.each do |t|  #alle Tags zur Ausgabe in einen String
+      if !@bookmark.tags.first.id.eql? t.id #vor erstes Element kein ,
+	    @tags << ","
+	  end
+      @tags << t.title
+	end
   end
 
   def update
+  
+    tags = params[:bookmark][:tagstring].split(',')
+	
+	#vor dem update sämtliche tags löschen und später neu befüllen
+ #   @bookmark.tags.delete_all
+ #   @bookmark.save
+	
+	tags.each do |t|
+	  if Tag.find_by_title(t).bookmarks.count < 2
+	    t.destroy
+      else
+	    t.delete
+	    @bookmark.save
+	  end
+	end
+	
+    if !tags.nil?
+      tags.each do |t|
+        t = t.strip
+        t = t.downcase
+        
+        tag = Tag.find_by_title(t)
+        
+        if tag.empty?
+          tag = current_user.tags.create(:title=>t)
+        else
+          if !current_user.tags.index(tag).nil?
+            current_user.tags << tag.first
+          end
+        end
+        @bookmark.tags << tag
+      end
+    end
+  
+    @bookmark.update_attributes(:url => params[:bookmark][:url], :title => params[:bookmark][:title])
+    redirect_to bookmarks_path
   end
 
   def new
