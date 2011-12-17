@@ -35,6 +35,7 @@ class BookmarksController < ApplicationController
   end
 
   def destroy
+  
   end
 
   def create
@@ -88,6 +89,7 @@ class BookmarksController < ApplicationController
 
   def update
       
+	#listen löschen und neu setzen
 	@bookmark.lists.clear
     @bookmark.lists << current_user.default_list
    
