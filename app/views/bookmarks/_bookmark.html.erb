@@ -1,21 +1,28 @@
 <div class="bookmark_item">
-  <h2><%= bookmark.title %></h2>
-  <p><%= link_to bookmark.url, bookmark.url%></p>
-  <div class="lists"
-    <ul>
-      <% bookmark.lists.each do |l|%>
-        <li><%= l.title %></li>
+  <span class="item_title"><%= bookmark.title %></span>&nbsp;<span class="item_url"><%= link_to bookmark.url, bookmark.url%></span>
+  <div class="user">
+    <%= link_to bookmark.lists.first.user.username, bookmarks_user_path(bookmark.lists.first.user) %>
+  </div>
+  <div class="lists"> 
+    <strong>Lists:</strong>
+    <% bookmark.lists.each do |l|%>
+      <%if l != l.user.default_list%>
+        <%= link_to l.title, list_path(l) %><%= (bookmark.lists.last != l) ? " ," : ""%>
       <%end%>
-    </ul>
+    <%end%>
   </div>
   <div class="tags">
-    <ul class="tags">
-      <% bookmark.tags.each do |t|%>
-        <li><%= t.title %></li>
-      <%end%>
-    </ul>
+    <strong>[</strong>
+    <% bookmark.tags.each do |t|%>
+      <%= link_to t.title, tag_path(t) %><%= (bookmark.tags.last != t) ? " ," : ""%>
+    <%end%>
+    <strong>]</strong>
   </div>
-  <div class="item_links">
-    <%= link_to t(:edit), edit_bookmark_path(bookmark) %>
-  </div>
+  <% if signed_in? && user_allowed_to_edit(current_user, bookmark)  %>
+    <div class="item_links">
+      <%= link_to t(:edit), edit_bookmark_path(bookmark) %>
+      <%= link_to t(:delete), edit_bookmark_path(bookmark) %>
+    </div>
+  <%end%>
 </div>
+<div class="separator"></div>

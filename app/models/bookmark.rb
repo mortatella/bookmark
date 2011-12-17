@@ -20,4 +20,8 @@ class Bookmark < ActiveRecord::Base
     return bookmarks
   end
   
+  def self.find_public_bookmarks_with_tag(tag)
+    public_bookmarks.tags.where("title=?",tag)
+  end
+  
 end

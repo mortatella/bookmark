@@ -1,2 +1,9 @@
-<h1>Lists#show</h1>
-<p>Find me in app/views/lists/show.html.erb</p>
+<div id="tags_wrapper">
+  <%= render :partial=>"bookmarks/tags", :locals=>{:tags=>@list.tags} %>
+</div>
+<div id="bookmarks_wrapper">
+  <% @list.bookmarks.each do |b| %>
+    <%= render :partial=>"bookmarks/bookmark", :locals=>{:bookmark=>b} %>
+  <%end%>
+</div>
+<div class="clear"></div>

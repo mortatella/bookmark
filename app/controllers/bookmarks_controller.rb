@@ -1,23 +1,34 @@
 class BookmarksController < ApplicationController
-
-  before_filter :authenticate_user!, :except=>[:index]
+  
   before_filter :get_bookmark, :only=>[:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, :except=>[:index]
+  before_filter :is_user_allowed_to, :except=>[:index, :new, :create]
   
   def get_bookmark
     @bookmark = Bookmark.find(params[:id])
   end
   
-  def index
-   if !signed_in?
-       @bookmarks = Bookmark.public_bookmarks
-       @tags = Tag.public_tags
+  def is_user_allowed_to
+    allowed = false
+    if(!current_user.bookmarks.index(@bookmark).nil?)
+      allowed = true
     else
-      @bookmarks = current_user.bookmarks
-      @tags = current_user.tags
+      write_shares = current_user.shares.find_all{|s| s.write == true}
+      write_shares.each do |s|
+        if @bookmark.lists.index(s.list)
+          allowed = true
+        end
+      end
     end
-      @bookmarks.sort { |a,b| b.created_at <=> a.created_at}
-      @tags.sort { |a,b| a.bookmarks.count <=> b.bookmarks.count}
-    
+
+    if(!allowed)
+      redirect_to root_path
+    end
+  end
+  
+  def index
+    @bookmarks = Bookmark.public_bookmarks.sort { |a,b| b.created_at <=> a.created_at}
+    @tags = Tag.public_tags.sort { |a,b| a.bookmarks.count <=> b.bookmarks.count} 
   end
 
   def show
@@ -48,11 +59,11 @@ class BookmarksController < ApplicationController
         
         tag = Tag.find_by_title(t)
         
-        if tag.empty?
+        if tag.nil?
           tag = current_user.tags.create(:title=>t)
         else
           if !current_user.tags.index(tag).nil?
-            current_user.tags << tag.first
+            current_user.tags << tag
           end
         end
         b.tags << tag
@@ -117,6 +128,16 @@ class BookmarksController < ApplicationController
   def new
     @bookmark = Bookmark.new(:title=>DateTime.now, :url=>"http://www.derstandard.at")
     @availableLists = current_user.lists
+  end
+  
+  def user_bookmarks
+    if current_user == @user
+      @bookmarks = @user.bookmarks
+      @tags = @user.tags
+    else
+      @bookmarks = @user.public_bookmarks
+      @tags = @user.public_tags
+    end
   end
 
 end

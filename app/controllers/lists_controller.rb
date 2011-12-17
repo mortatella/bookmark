@@ -1,6 +1,6 @@
 class ListsController < ApplicationController
 
-  before_filter :get_list, :only=>[:show, :edit, :update, :destroy, :share]
+  before_filter :get_list, :only=>[:show, :edit, :update, :destroy, :share, :bookmarks]
   
   def get_list
     @list = List.find(params[:id])
@@ -11,7 +11,6 @@ class ListsController < ApplicationController
   end
 
   def show
-    
   end
 
   def destroy
@@ -41,5 +40,6 @@ class ListsController < ApplicationController
     @users = User.all
     @users.delete(current_user)
   end
+  
   
 end

@@ -5,9 +5,18 @@
 #tags_wrapper
 {
   float: left;
+  width: 10%;
 }
 
 #bookmarks_wrapper
 {
   float: right;
+  width: 90%;
+}
+
+.bookmark_item
+{
+  margin:20px 0px 20px 0px;
+  padding: 10px 5px;
+  border-bottom: 1px dotted;
 }

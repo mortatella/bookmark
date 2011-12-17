@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 
   belongs_to :default_list, :foreign_key=>:default_list_id, :class_name=>'List'
   has_many :lists
-  has_many :bookmarks, :through=>:list
+  has_many :bookmarks, :through => :lists
   has_many :shares
   has_and_belongs_to_many :tags
   
@@ -21,13 +21,24 @@ class User < ActiveRecord::Base
     return w_lists
   end
   
-  def bookmarks
-    tmp = []
-    lists.each do |l|
-      if(l.bookmarks)
-        tmp = tmp | l.bookmarks
-      end
-    end
-   return tmp
+  def find_bookmarks_with_tag(tag)
+    tags.select{|t| t.title=tag.title}.collect{|t| t.bookmarks}.flatten
   end
+  
+  def shared_bookmarks
+   shares.collect{|s| s.list.bookmarks}.flatten
+  end
+  
+  def public_bookmarks
+    lists.select{|l| l.public}.collect{|l| l.bookmarks}.flatten
+  end
+  
+  def public_tags
+    public_bookmarks.collect{|b| b.tags}.flatten.uniq
+  end
+  
+  def own_and_shared_bookmarks
+    bookmarks | shared_bookmarks
+  end
+  
 end

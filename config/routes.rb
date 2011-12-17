@@ -1,14 +1,20 @@
 Bookmakr::Application.routes.draw do
 
   resources :bookmarks
+  resources :tags
+  
   resources :lists do
     get :share, :on=>:member
   end
   resources :shares 
   
-  devise_for :users, :controllers => {:registrations => "registrations"}
+  match "/users/:id/bookmarks" => "users#bookmarks", :as=>"bookmarks_user"
+  match "/users/:id/sharedbookmarks" => "users#shared_bookmarks", :as=>"shared_bookmarks_user"
   
+  devise_for :users, :controllers => {:registrations => "registrations", :sesions => "devise/sessions"}
 
+  
+  
   root :to => 'bookmarks#index'
   
   

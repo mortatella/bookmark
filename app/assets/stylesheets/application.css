@@ -6,6 +6,14 @@
  *= require_tree . 
 */
 
+body, html
+{
+  margin: 0px;
+  padding: 0px;
+  font-family: Helvetica, Arial;
+  font-size: 13px;
+}
+
 .clear
 {
   clear:both;
