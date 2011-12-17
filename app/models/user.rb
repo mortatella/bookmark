@@ -42,7 +42,11 @@ class User < ActiveRecord::Base
   end
   
   def used_tags
-    tags.select{|t| (t.bookmarks & bookmarks).count > 0}.uniq
+    bookmarks.collect{|b| b.tags}.flatten.uniq
+  end
+  
+  def user.used_own_and_shared_tags
+    own_and_shared_bookmarks.collect{|b| b.tags}.flatten.uniq
   end
   
 end
