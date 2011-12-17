@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
     bookmarks.collect{|b| b.tags}.flatten.uniq
   end
   
-  def user.used_own_and_shared_tags
+  def used_own_and_shared_tags
     own_and_shared_bookmarks.collect{|b| b.tags}.flatten.uniq
   end
   
