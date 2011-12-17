@@ -9,7 +9,7 @@ class Tag < ActiveRecord::Base
   
   def self.public_tags
     tags = []
-    Bookmark.public_bookmarks.each {|b| tags = tags | b.tags}
+    Bookmark.public_bookmarks.each {|b| tags = tags | b.tags}.uniq
     
     return tags;
   end
