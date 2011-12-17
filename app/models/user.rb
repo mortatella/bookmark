@@ -41,4 +41,8 @@ class User < ActiveRecord::Base
     bookmarks | shared_bookmarks
   end
   
+  def unique_tags
+    tags.uniq
+  end
+  
 end
