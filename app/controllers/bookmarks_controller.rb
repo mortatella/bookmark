@@ -87,20 +87,28 @@ class BookmarksController < ApplicationController
   end
 
   def update
+      
+	@bookmark.lists.clear
+    @bookmark.lists << current_user.default_list
+   
+    if !params[:bookmark][:list_ids].nil?
+      params[:bookmark][:list_ids].each do |l|
+         @bookmark.lists << List.find(l.first)
+      end
+    end 
   
     tags = params[:bookmark][:tagstring].split(',')
 	
-	#vor dem update sämtliche tags löschen und später neu befüllen
- #   @bookmark.tags.delete_all
- #   @bookmark.save
-	
-	tags.each do |t|
-	  if Tag.find_by_title(t).bookmarks.count < 2
-	    t.destroy
-      else
-	    t.delete
-	    @bookmark.save
-	  end
+	#vor dem update sämtliche tags löschen/zerstören und später neu befüllen	
+	@bookmark.tags.each do |t|
+	    if Tag.find_by_title(t.title).bookmarks.count == 1 #existiert nur in aktuellem bookmark
+		  #tag komplett löschen
+	      t.destroy
+		else
+          #tag nur aus dem array des aktuellen bookmarks löschen, da es wo anders noch existiert
+	      @bookmark.tags.delete(t)
+		  @bookmark.save
+	    end
 	end
 	
     if !tags.nil?
@@ -110,19 +118,21 @@ class BookmarksController < ApplicationController
         
         tag = Tag.find_by_title(t)
         
-        if tag.empty?
+        if tag.nil?
           tag = current_user.tags.create(:title=>t)
         else
           if !current_user.tags.index(tag).nil?
-            current_user.tags << tag.first
+            current_user.tags << tag
           end
         end
         @bookmark.tags << tag
       end
     end
   
+	
     @bookmark.update_attributes(:url => params[:bookmark][:url], :title => params[:bookmark][:title])
     redirect_to bookmarks_path
+	
   end
 
   def new
