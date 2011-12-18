@@ -45,6 +45,8 @@ class BookmarksController < ApplicationController
   
   def destroy
     @bookmark.destroy
+	#redirect to the page the request came from
+	redirect_to(request.env["HTTP_REFERER"])
   end
 
 
