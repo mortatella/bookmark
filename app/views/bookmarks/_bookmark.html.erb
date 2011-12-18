@@ -21,7 +21,7 @@
   <% if signed_in? && user_allowed_to_edit(current_user, bookmark)  %>
     <div class="item_links">
       <%= link_to t(:edit), edit_bookmark_path(bookmark) %>
-      <%= link_to t(:delete), @bookmark, :confirm => 'Are you sure?', method: :delete %>
+      <%= link_to(t(:delete),  bookmark, :method => :delete, :confirm => "Are you sure?") %>
     </div>
   <%end%>
 </div>
