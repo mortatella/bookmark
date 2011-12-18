@@ -1,5 +1,9 @@
-<% @tags.each do |tag| %>
-  <div class="tag_item">
-    <span class="item_title"><%= link_to "#{tag.title} (#{(tag.bookmarks & @bookmarks).count})", tag_path(tag)%></span>
-  </div>
+<% if !@tags.nil? && !@tags.empty? %>
+  <% @tags.each do |tag| %>
+    <div class="tag_item">
+      <span class="item_title"><%= link_to "#{tag.title} (#{(tag.bookmarks & @bookmarks).count})", tag_path(tag)%></span>
+    </div>
+  <%end%>
+<%else%>
+  no tags
 <%end%>
