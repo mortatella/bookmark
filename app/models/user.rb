@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   
   
   def writable_lists
-    w_lists = lists | shares.select{|s| s.write == true}.collect{|s| s.lists}.flatten.uniq
+    w_lists = lists | shares.select{|s| s.write == true}.collect{|s| s.list}.flatten.uniq
     w_lists.delete(default_list)
     return w_lists
   end

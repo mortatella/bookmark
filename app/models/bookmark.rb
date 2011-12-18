@@ -3,6 +3,8 @@ class Bookmark < ActiveRecord::Base
   has_and_belongs_to_many :tags
   has_and_belongs_to_many :lists
   
+  self.per_page = 2
+  
   def self.public
     Bookmark.all
   end
