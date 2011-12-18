@@ -3,7 +3,7 @@
   <div></div><%= b.label :url %><%= b.url_field :url %></div>
 
   <div><label for="lists">Bookmark Lists</label><br>
-  <% current_user.writable_lists.each do |l| %>
+  <% @available_lists.each do |l| %>
     <%= check_box_tag("bookmark[list_ids][#{l.id}]", "1", @bookmark.lists.detect{|d| d == l}) %>
     <%="#{l.title}"%></div>
   <% end %>

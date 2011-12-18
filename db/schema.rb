@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111215171056) do
+ActiveRecord::Schema.define(:version => 20111218111309) do
 
   create_table "bookmarks", :force => true do |t|
     t.string   "url"
@@ -51,16 +51,6 @@ ActiveRecord::Schema.define(:version => 20111215171056) do
   end
 
   add_index "lists", ["user_id"], :name => "index_lists_on_user_id"
-
-  create_table "manifests", :force => true do |t|
-    t.integer  "bookmark_id"
-    t.integer  "list_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "manifests", ["bookmark_id"], :name => "index_manifests_on_bookmark_id"
-  add_index "manifests", ["list_id"], :name => "index_manifests_on_list_id"
 
   create_table "shares", :force => true do |t|
     t.boolean  "write"
@@ -111,5 +101,6 @@ ActiveRecord::Schema.define(:version => 20111215171056) do
   add_index "users", ["default_list_id"], :name => "index_users_on_default_list"
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+  add_index "users", ["username"], :name => "index_users_on_username", :unique => true
 
 end
