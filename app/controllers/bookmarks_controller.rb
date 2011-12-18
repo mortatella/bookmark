@@ -41,7 +41,7 @@ class BookmarksController < ApplicationController
 	respond_to do |format|
       format.html{ redirect_to bookmarks_path}
       format.xml { head :ok}
-
+	end
   end
 
   def create
