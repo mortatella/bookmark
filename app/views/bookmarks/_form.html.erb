@@ -7,6 +7,7 @@
     <%= check_box_tag("bookmark[list_ids][#{l.id}]", "1", @bookmark.lists.detect{|d| d == l}) %>
     <%="#{l.title}"%></div>
   <% end %>
-  <div><%=b.label t(:tags)%><%= text_field_tag("bookmark[tagstring]") %></div>
+   
+  <div><%=b.label :tags %><%= text_field_tag("bookmark[tagstring]", @tags) %></div>
   <div><%= b.submit %></div>
 <% end %>

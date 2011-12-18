@@ -35,6 +35,13 @@ class BookmarksController < ApplicationController
   end
 
   def destroy
+    @bookmark = Bookmark.find(params[:id])
+    @bookmark.destroy
+
+	respond_to do |format|
+      format.html{ redirect_to bookmarks_path}
+      format.xml { head :ok}
+
   end
 
   def create
@@ -77,10 +84,62 @@ class BookmarksController < ApplicationController
   end
 
   def edit
-  
+    @tags = ""
+    @bookmark.tags.each do |t|  #alle Tags zur Ausgabe in einen String
+      if !@bookmark.tags.first.id.eql? t.id #vor erstes Element kein ,
+	    @tags << ","
+	  end
+      @tags << t.title
+	end
   end
 
   def update
+      
+	#listen löschen und neu setzen
+	@bookmark.lists.clear
+    @bookmark.lists << current_user.default_list
+   
+    if !params[:bookmark][:list_ids].nil?
+      params[:bookmark][:list_ids].each do |l|
+         @bookmark.lists << List.find(l.first)
+      end
+    end 
+  
+    tags = params[:bookmark][:tagstring].split(',')
+	
+	#vor dem update sämtliche tags löschen/zerstören und später neu befüllen	
+	@bookmark.tags.each do |t|
+	    if Tag.find_by_title(t.title).bookmarks.count == 1 #existiert nur in aktuellem bookmark
+		  #tag komplett löschen
+	      t.destroy
+		else
+          #tag nur aus dem array des aktuellen bookmarks löschen, da es wo anders noch existiert
+	      @bookmark.tags.delete(t)
+		  @bookmark.save
+	    end
+	end
+	
+    if !tags.nil?
+      tags.each do |t|
+        t = t.strip
+        t = t.downcase
+        
+        tag = Tag.find_by_title(t)
+        
+        if tag.nil?
+          tag = current_user.tags.create(:title=>t)
+        else
+          if !current_user.tags.index(tag).nil?
+            current_user.tags << tag
+          end
+        end
+        @bookmark.tags << tag
+      end
+    end 
+	
+    @bookmark.update_attributes(:url => params[:bookmark][:url], :title => params[:bookmark][:title])
+    redirect_to bookmarks_path
+	
   end
 
   def new
