@@ -2,8 +2,11 @@
   <%= render :partial=>"bookmarks/tags", :locals=>{:tags=>@list.tags} %>
 </div>
 <div id="bookmarks_wrapper">
-  <% @list.bookmarks.each do |b| %>
-    <%= render :partial=>"bookmarks/bookmark", :locals=>{:bookmark=>b} %>
-  <%end%>
+  <div id="bookmarks">
+    <% @bookmarks = @list.bookmarks %>
+    <% @list.bookmarks.each do |b| %>
+      <%= render :partial=>"bookmarks/bookmark", :locals=>{:bookmark=>b} %>
+    <%end%>
+  </div>
 </div>
 <div class="clear"></div>

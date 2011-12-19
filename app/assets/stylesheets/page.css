@@ -3,12 +3,14 @@ div#page
 {
   width: 960px;
   margin: 0 auto;
+  min-height: 100%;
   
 }
 div#content
 {
   background: #ddd;
   padding:20px;
+  height: 100%
 }
 
 div#main_menu

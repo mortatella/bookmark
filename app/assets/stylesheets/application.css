@@ -18,3 +18,22 @@ body, html
 {
   clear:both;
 }
+
+a:link,
+a:active,
+a:visited
+{
+ text-decoration: none;
+ color: green;
+}
+
+a:hover
+{
+  text-decoration: underline;
+}
+
+.item_title
+{
+  font-weight: bold;
+}
+

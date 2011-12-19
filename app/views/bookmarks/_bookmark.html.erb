@@ -1,28 +1,27 @@
-<div class="bookmark_item">
-  <span class="item_title"><%= bookmark.title %></span>&nbsp;<span class="item_url"><%= link_to bookmark.url, bookmark.url%></span>
-  <div class="user">
-    <%= link_to bookmark.lists.first.user.username, bookmarks_user_path(bookmark.lists.first.user) %>
-  </div>
-  <div class="lists"> 
-    <strong>Lists:</strong>
-    <% bookmark.lists.each do |l|%>
-      <%if l != l.user.default_list%>
-        <%= link_to l.title, list_path(l) %><%= (bookmark.lists.last != l) ? " ," : ""%>
+<div class="item_wrapper"<%= bookmark == @bookmarks.first ? ' id=first_item_wrapper' : bookmark == @bookmarks.last ? ' id=last_item_wrapper' : '' %>>
+  <div class="item">
+    <span class="item_title"><%= bookmark.title %></span>&nbsp;<span class="item_url"><%= link_to bookmark.url, bookmark.url%></span>, 
+    <span class="user">by <%= link_to bookmark.lists.first.user.username, bookmarks_user_path(bookmark.lists.first.user) %> </span>
+    <div class="lists"> 
+      <strong>Lists:</strong>
+      <% bookmark.lists.each do |l|%>
+        <%if l != l.user.default_list%>
+          <%= link_to l.title, list_path(l) %><%= (bookmark.lists.last != l) ? " ," : ""%>
+        <%end%>
       <%end%>
-    <%end%>
-  </div>
-  <div class="tags">
-    <strong>[</strong>
-    <% bookmark.tags.each do |t|%>
-      <%= link_to t.title, tag_path(t) %><%= (bookmark.tags.last != t) ? " ," : ""%>
-    <%end%>
-    <strong>]</strong>
-  </div>
-  <% if signed_in? && user_allowed_to_edit(current_user, bookmark)  %>
-    <div class="item_links">
-      <%= link_to t(:edit), edit_bookmark_path(bookmark) %>
-      <%= link_to(t(:delete),  bookmark, :method => :delete, :confirm => "Are you sure?") %>
     </div>
-  <%end%>
+    <div class="tags">
+      <strong>[</strong>
+      <% bookmark.tags.each do |t|%>
+        <%= link_to t.title, tag_path(t) %><%= (bookmark.tags.last != t) ? " ," : ""%>
+      <%end%>
+      <strong>]</strong>
+    </div>
+    <% if signed_in? && user_allowed_to_edit(current_user, bookmark)  %>
+      <div class="item_links">
+        <%= link_to t(:edit), edit_bookmark_path(bookmark) %>
+        <%= link_to(t(:delete),  bookmark, :method => :delete, :confirm => "Are you sure?") %>
+      </div>
+    <%end%>
+  </div>
 </div>
-<div class="separator"></div>

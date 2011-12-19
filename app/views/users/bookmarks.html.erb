@@ -2,11 +2,8 @@
   <%= render :partial=>"bookmarks/tags", :locals=>{:tags=>@tags, :bookmarks=>@bookmarks} %>
 </div>
 <div id="bookmarks_wrapper">
-  <%= render  @bookmarks %>
-  <div id="model_links">
-    <%= link_to "new Bookmark", new_bookmark_path %>
-    <%= link_to "new List", new_list_path %>
-    <%= link_to "show lists", lists_path %>
+  <div id="bookmarks">  
+    <%= render  @bookmarks %>
   </div>
 </div>
 <div class="clear"></div>

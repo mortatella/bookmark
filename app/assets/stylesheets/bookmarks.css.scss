@@ -14,9 +14,32 @@
   width: 90%;
 }
 
-.bookmark_item
+#bookmarks div.item_wrapper
 {
   margin:20px 0px 20px 0px;
   padding: 10px 5px;
   border-bottom: 1px dotted;
+}
+
+#bookmarks #first_item_wrapper
+{
+  margin-top: 0px;
+}
+
+#bookmarks #last_item_wrapper
+{
+  margin-bottom: 0px;
+  border:none;
+}
+
+#bookmarks div.item
+{
+  position: relative;
+}
+
+.item_links
+{
+  position:absolute;
+  right: 0px;
+  top: 0px;
 }
