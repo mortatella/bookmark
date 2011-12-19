@@ -14,25 +14,25 @@
   width: 90%;
 }
 
-#bookmarks div.item_wrapper
+div.item_wrapper
 {
   margin:20px 0px 20px 0px;
   padding: 10px 5px;
   border-bottom: 1px dotted;
 }
 
-#bookmarks #first_item_wrapper
+#first_item_wrapper
 {
   margin-top: 0px;
 }
 
-#bookmarks #last_item_wrapper
+#last_item_wrapper
 {
   margin-bottom: 0px;
   border:none;
 }
 
-#bookmarks div.item
+div.item
 {
   position: relative;
 }

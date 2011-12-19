@@ -16,14 +16,19 @@ class Bookmark < ActiveRecord::Base
   def self.public_bookmarks
     
     bookmarks = []
-    
     List.public_lists.each {|l| bookmarks = bookmarks | l.bookmarks}
-    
     return bookmarks
   end
   
   def self.find_public_bookmarks_with_tag(tag)
     public_bookmarks.tags.where("title=?",tag)
+  end
+  
+  def bookmarks_lists_of_user(user)
+    user_lists = lists & user.lists
+    user_lists = user_lists | lists.select{|l| l.public == true}
+    user_lists = user_lists | lists & user.shares.collect{|s| s.list}.flatten
+    user_lists.uniq
   end
   
 end
