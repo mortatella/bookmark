@@ -7,7 +7,7 @@ class BookmarksController < ApplicationController
   before_filter :authenticate_user!, :except=>[:index]
   
   #checks if the logged in user (current_user) is allowed to do the actions
-  before_filter :is_user_allowed_to, :except=>[:index, :new, :create]
+  before_filter :is_user_allowed_to, :except=>[:index, :new, :create, :destroy]
   
   #gets the bookmark defined by the id in the params-field
   def get_bookmark
@@ -45,6 +45,8 @@ class BookmarksController < ApplicationController
   
   def destroy
     @bookmark.destroy
+	#redirect to the page the request came from
+	redirect_to(request.env["HTTP_REFERER"])
   end
 
 
