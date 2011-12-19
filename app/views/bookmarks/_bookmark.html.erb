@@ -4,10 +4,8 @@
     <span class="user">by <%= link_to bookmark.lists.first.user.username, bookmarks_user_path(bookmark.lists.first.user) %> </span>
     <div class="lists"> 
       <strong>Lists:</strong>
-      <% bookmark.lists.each do |l|%>
-        <%if l != l.user.default_list%>
-          <%= link_to l.title, list_path(l) %><%= (bookmark.lists.last != l) ? " ," : ""%>
-        <%end%>
+      <% bookmark.bookmarks_lists_of_user(current_user).each do |l|%>
+        <%= link_to l.title, list_path(l) %><%= (bookmark.lists.last != l) ? " ," : ""%>
       <%end%>
     </div>
     <div class="tags">
