@@ -21,6 +21,8 @@ class SharesController < ApplicationController
       share.user = user
       share.save
     end
+    
+    redirect_to lists_path
   end
 
   def edit

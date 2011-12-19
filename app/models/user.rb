@@ -16,9 +16,13 @@ class User < ActiveRecord::Base
   
   
   def writable_lists
-    w_lists = lists | shares.select{|s| s.write == true}.collect{|s| s.list}.flatten.uniq
+    w_lists = lists #| shares.select{|s| s.write == true}.collect{|s| s.list}.flatten.uniq
     w_lists.delete(default_list)
     return w_lists
+  end
+  
+  def shared_lists
+    shares.collect{|s| s.list}.flatten
   end
   
   def find_bookmarks_with_tag(tag)
@@ -38,7 +42,13 @@ class User < ActiveRecord::Base
   end
   
   def own_and_shared_bookmarks
-    bookmarks | shared_bookmarks
+    all_bookmarks = bookmarks | shared_bookmarks
+    
+    all_bookmarks.each do |b|
+      b.lists = b.bookmarks_lists_of_user(User.find(id))
+    end
+    
+    return all_bookmarks
   end
   
   def used_tags

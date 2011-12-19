@@ -67,7 +67,7 @@ class BookmarksController < ApplicationController
     
     #splits the tags from the textfield
     tags = params[:bookmark][:tagstring].split(',')
-    
+    tags.uniq!
     if !tags.nil?
       tags.each do |t|
         t = t.strip
@@ -112,9 +112,8 @@ class BookmarksController < ApplicationController
   end
 
   def update
-      
-	#listen löschen und neu setzen
-	@bookmark.lists.clear
+    #listen löschen und neu setzen
+    @bookmark.lists = @bookmark.lists - current_user.writable_lists
     @bookmark.lists << current_user.default_list
    
     if !params[:bookmark][:list_ids].nil?
