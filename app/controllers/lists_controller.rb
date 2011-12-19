@@ -19,7 +19,7 @@ class ListsController < ApplicationController
   def create
     current_user.lists.create(params[:list])
     
-    redirect_to bookmarks_path
+    redirect_to lists_path
   end
 
   def edit
