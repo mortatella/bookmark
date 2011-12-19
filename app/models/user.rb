@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   
   
   def writable_lists
-    w_lists = lists #| shares.select{|s| s.write == true}.collect{|s| s.list}.flatten.uniq
+    w_lists = lists.to_ary #| shares.select{|s| s.write == true}.collect{|s| s.list}.flatten.uniq
     w_lists.delete(default_list)
     return w_lists
   end
@@ -44,10 +44,10 @@ class User < ActiveRecord::Base
   def own_and_shared_bookmarks
     all_bookmarks = bookmarks | shared_bookmarks
     
-    all_bookmarks.each do |b|
-      b.lists = b.bookmarks_lists_of_user(User.find(id))
-    end
-    
+    # all_bookmarks.each do |b|
+#       b.lists = b.bookmarks_lists_of_user(User.find(id))
+#     end
+#     
     return all_bookmarks
   end
   

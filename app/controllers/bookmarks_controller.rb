@@ -45,8 +45,8 @@ class BookmarksController < ApplicationController
   
   def destroy
     @bookmark.destroy
-	#redirect to the page the request came from
-	redirect_to(request.env["HTTP_REFERER"])
+    #redirect to the page the request came from
+    redirect_to(request.env["HTTP_REFERER"])
   end
 
 
@@ -67,11 +67,13 @@ class BookmarksController < ApplicationController
     
     #splits the tags from the textfield
     tags = params[:bookmark][:tagstring].split(',')
+    tags = tags.map do |t|
+      t = t.strip
+      t = t.downcase
+    end
     tags.uniq!
     if !tags.nil?
       tags.each do |t|
-        t = t.strip
-        t = t.downcase
         
         #checks if a tag is already created yet
         tag = Tag.find_by_title(t)
@@ -113,14 +115,17 @@ class BookmarksController < ApplicationController
 
   def update
     #listen löschen und neu setzen
-    @bookmark.lists = @bookmark.lists - current_user.writable_lists
-    @bookmark.lists << current_user.default_list
+     tmpList = @bookmark.lists.to_ary - current_user.lists
+     @bookmark.lists.clear
+     @bookmark.lists << current_user.default_list
    
     if !params[:bookmark][:list_ids].nil?
       params[:bookmark][:list_ids].each do |l|
          @bookmark.lists << List.find(l.first)
       end
     end 
+    
+    @bookmark.lists << tmpList
   
     tags = params[:bookmark][:tagstring].split(',')
 	
