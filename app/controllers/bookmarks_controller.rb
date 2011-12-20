@@ -71,7 +71,7 @@ class BookmarksController < ApplicationController
     
     tags = parse_tag_string(params[:bookmark][:tagstring])	
     
-    set_tags(tags)
+    set_tags(b, tags)
     
     b.save!
     
@@ -111,13 +111,13 @@ class BookmarksController < ApplicationController
     @bookmark.tags.clear  
     tags = parse_tag_string(params[:bookmark][:tagstring])	
     
-    set_tags(tags)    
+    set_tags(@bookmark, tags)    
 	
     @bookmark.update_attributes(:url => params[:bookmark][:url], :title => params[:bookmark][:title])
     redirect_to bookmarks_user_path(current_user)
   end
   
-  def set_tags(tags)
+  def set_tags(bookmark, tags)
     if !tags.nil?
       tags.each do |t|
         t = t.strip
@@ -132,7 +132,7 @@ class BookmarksController < ApplicationController
             current_user.tags << tag
           end
         end
-        @bookmark.tags << tag
+        bookmark.tags << tag
       end
     end 
   end

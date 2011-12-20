@@ -15,9 +15,6 @@ class ListsController < ApplicationController
   end
 
   def show
-    @list.bookmarks.each do |l|
-      @tags = @tag []
-    end
     if signed_in? && current_user.lists.index(@list)
       @public_only = false
     elsif @list.public
