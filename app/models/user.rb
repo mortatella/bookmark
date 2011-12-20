@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
   has_many :shares
   has_and_belongs_to_many :tags
   
+  validates :firstName, :presence => true
+  validates :lastName, :presence => true
   
   def writable_lists
     w_lists = lists.to_ary #| shares.select{|s| s.write == true}.collect{|s| s.list}.flatten.uniq
