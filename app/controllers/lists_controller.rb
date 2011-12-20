@@ -25,6 +25,24 @@ class ListsController < ApplicationController
   end
 
   def destroy
+    
+    
+    @list.bookmarks.each do |b|
+      #if a bookmark is only in the list to destroy and the users default_list it can be destroyed
+      if(b.lists.count==2)
+        b.delete
+      else
+        b.lists.delete(@list)
+        b.save
+      end
+    end
+    
+    @list.shares.each do |s|
+      s.destroy
+    end
+    @list.destroy
+    
+    redirect_to lists_path
   end
 
   def create

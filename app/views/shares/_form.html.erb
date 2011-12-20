@@ -1,5 +1,4 @@
-<%= form_for(@share) do |f|%>
-  <div><%=f.label t(:lists)%><%= collection_select("test","test",current_user.lists,:id,:title) %></div>
-  <div><%=f.label t(:share_with)%><%= collection_select("test","test",@available_users,:id,:username) %></div>
-  <div><%=f.submit%></div>
+<%= form_for(@share) do |f| %>
+  <div><%= f.label :write%><%=f.check_box :write%></div> 
+  <div><%= f.submit%></div>
 <%end%>

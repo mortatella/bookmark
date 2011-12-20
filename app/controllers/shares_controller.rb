@@ -2,13 +2,16 @@ class SharesController < ApplicationController
   
   before_filter :authenticate_user!
   
-  def index
-  end
-
-  def show
+  before_filter :get_share, :only=>[:edit,:destroy,:update]
+  
+  def get_share
+    @share = Share.find(params[:id])
   end
 
   def destroy
+    @share.destroy
+    
+    redirect_to lists_path
   end
 
   def create
@@ -26,9 +29,13 @@ class SharesController < ApplicationController
   end
 
   def edit
+    
   end
 
   def update
+    @share.update_attributes(:write=>params[:share][:write])
+    @share.save
+    redirect_to lists_path
   end
 
   def new

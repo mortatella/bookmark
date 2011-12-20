@@ -2,9 +2,16 @@
   <div class="item">
     <span class="item_title"><%= list.title %></span>
     <p>public: <%= list.public %></p>
+    <%if list.shares.count > 0 %>
+      <div class="shares">
+        <strong><%= t(:shares) %></strong>
+        <%= render list.shares %> 
+      </div>
+    <%end%>
     <div class="item_links">
       <%= link_to t(:edit), edit_list_path(list) %>
       <%= link_to t(:share), share_list_path(list) %>
+      <%= link_to(t(:delete),  list, :method => :delete, :confirm => "Are you sure?") %>
       <%= link_to t(:show_bookmarks), list_path(list) %>
     </div>
   </div>
