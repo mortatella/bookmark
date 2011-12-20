@@ -6,13 +6,11 @@ class Bookmark < ActiveRecord::Base
   #returns all bookmarks belonging to public lists
   def self.public_bookmarks
     bookmarks = List.public_lists.collect{|l| l.bookmarks}.flatten
-    
-    #removes all lists of the bookmark which are no public lists
-    bookmarks = bookmarks.each do |b|
-      b.lists = b.lists & List.public_lists
-    end
-    
     bookmarks.sort { |a,b| b.created_at <=> a.created_at}
+  end
+  
+  def public_lists
+    lists & List.public_lists
   end
   
   #returns all public bookmarks tagged with tag
