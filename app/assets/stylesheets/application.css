@@ -37,3 +37,10 @@ a:hover
   font-weight: bold;
 }
 
+/*forms*/
+
+label
+{
+  width: 120px;
+}
+

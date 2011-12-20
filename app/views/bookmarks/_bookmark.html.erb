@@ -4,16 +4,20 @@
     <span class="user">by <%= link_to bookmark.lists.first.user.username, bookmarks_user_path(bookmark.lists.first.user) %> </span>
     <div class="lists"> 
       <strong>Lists:</strong>
-      <% bookmark.bookmarks_lists_of_user(current_user).each do |l|%>
-        <%= link_to l.title, list_path(l) %><%= (bookmark.lists.last != l) ? " ," : ""%>
+      <% bookmark.lists.each do |l|%>
+        <% if l != l.user.default_list %>
+          <%= link_to l.title, list_path(l) %><%= (bookmark.lists.last != l) ? ", " : ""%>
+        <%end%>
       <%end%>
     </div>
     <div class="tags">
-      <strong>[</strong>
-      <% bookmark.tags.each do |t|%>
-        <%= link_to t.title, tag_path(t) %><%= (bookmark.tags.last != t) ? " ," : ""%>
-      <%end%>
-      <strong>]</strong>
+      <% if !bookmark.tags.empty? %>
+        <strong>[</strong>
+        <% bookmark.tags.each do |t|%>
+          <%= link_to t.title, tag_path(t) %><%= (bookmark.tags.last != t) ? " ," : ""%>
+        <%end%>
+        <strong>]</strong>
+    <% end %>
     </div>
     <% if signed_in? && user_allowed_to_edit(current_user, bookmark)  %>
       <div class="item_links">

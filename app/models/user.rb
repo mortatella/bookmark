@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   end
   
   def find_bookmarks_with_tag(tag)
-    tags.select{|t| t.title=tag.title}.collect{|t| t.bookmarks}.flatten.uniq
+    tags.select{|t| t.title == tag.title}.collect{|t| t.bookmarks}.flatten.uniq
   end
   
   def shared_bookmarks
@@ -43,11 +43,9 @@ class User < ActiveRecord::Base
   
   def own_and_shared_bookmarks
     all_bookmarks = bookmarks | shared_bookmarks
-    
-    # all_bookmarks.each do |b|
-#       b.lists = b.bookmarks_lists_of_user(User.find(id))
-#     end
-#     
+    all_bookmarks.each do |b|
+      b.lists = b.bookmarks_lists_of_user(User.find(id))
+    end  
     return all_bookmarks
   end
   

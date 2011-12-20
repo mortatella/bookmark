@@ -14,10 +14,13 @@ class Bookmark < ActiveRecord::Base
   end
   
   def self.public_bookmarks
+    bookmarks = List.public_lists.collect{|l| l.bookmarks}.flatten
     
-    bookmarks = []
-    List.public_lists.each {|l| bookmarks = bookmarks | l.bookmarks}
-    return bookmarks
+    bookmarks = bookmarks.each do |b|
+      b.lists = b.lists & List.public_lists
+    end
+    
+    bookmarks.sort { |a,b| b.created_at <=> a.created_at}
   end
   
   def self.find_public_bookmarks_with_tag(tag)

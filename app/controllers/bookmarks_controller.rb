@@ -37,7 +37,7 @@ class BookmarksController < ApplicationController
   #shows all public bookmarks and their tags
   def index
     @bookmarks = Bookmark.public_bookmarks.sort { |a,b| b.created_at <=> a.created_at}
-    @tags = Tag.public_tags.sort { |a,b| a.bookmarks.count <=> b.bookmarks.count} 
+    @tags = @bookmarks.collect{|b| b.tags}.flatten.sort{ |a,b| a.bookmarks.count <=> b.bookmarks.count} 
   end
 
   def show
