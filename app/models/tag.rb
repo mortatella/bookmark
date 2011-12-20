@@ -8,10 +8,11 @@ class Tag < ActiveRecord::Base
   end
   
   def self.public_tags
-    tags = []
-    Bookmark.public_bookmarks.each {|b| tags = tags | b.tags}.uniq
-    
-    return tags;
+    Bookmark.public_bookmarks.collect {|b| b.tags}.flatten.uniq
+  end
+  
+  def public_bookmarks
+    bookmarks & Bookmark.public_bookmarks
   end
  
   def title=(title)

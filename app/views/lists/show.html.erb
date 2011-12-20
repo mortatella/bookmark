@@ -3,10 +3,7 @@
 </div>
 <div id="bookmarks_wrapper">
   <div id="bookmarks">
-    <% @bookmarks = @list.bookmarks %>
-    <% @list.bookmarks.each do |b| %>
-      <%= render :partial=>"bookmarks/bookmark", :locals=>{:bookmark=>b} %>
-    <%end%>
+     <%= render :partial=>"bookmarks/bookmarks", :locals=>{:bookmarks=>@list.bookmarks, :public_only=>@public_only} %>
   </div>
 </div>
 <div class="clear"></div>

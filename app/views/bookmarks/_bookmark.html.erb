@@ -1,4 +1,4 @@
-<div class="item_wrapper"<%= bookmark == @bookmarks.first ? ' id=first_item_wrapper' : bookmark == @bookmarks.last ? ' id=last_item_wrapper' : '' %>>
+<div class="item_wrapper"%>
   <div class="item">
     <span class="item_title"><%= bookmark.title %></span>&nbsp;<span class="item_url"><%= link_to bookmark.url, bookmark.url%></span>, 
     <span class="user">by <%= link_to bookmark.lists.first.user.username, bookmarks_user_path(bookmark.lists.first.user) %> </span>
@@ -14,7 +14,11 @@
       <% if !bookmark.tags.empty? %>
         <strong>[</strong>
         <% bookmark.tags.each do |t|%>
-          <%= link_to t.title, tag_path(t) %><%= (bookmark.tags.last != t) ? " ," : ""%>
+          <% if public_only == true %>
+            <%= link_to t.title, tag_path(t) %><%= (bookmark.tags.last != t) ? " ," : ""%>
+          <%else%>
+            <%= link_to t.title, bookmarks_tags_user_path(current_user, t) %><%= (bookmark.tags.last != t) ? " ," : ""%>
+          <%end%>
         <%end%>
         <strong>]</strong>
     <% end %>

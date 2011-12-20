@@ -1,0 +1,3 @@
+<% bookmarks.each do |b| %>
+  <%= render :partial=>"bookmarks/bookmark", :locals=>{:bookmark=>b, :public_only=>public_only} %>    
+<%end%>

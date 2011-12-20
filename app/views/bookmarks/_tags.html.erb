@@ -1,7 +1,13 @@
 <% if !@tags.nil? && !@tags.empty? %>
   <% @tags.each do |tag| %>
     <div class="tag_item">
-      <span class="item_title"><%= link_to "#{tag.title} (#{(tag.bookmarks & @bookmarks).count})", tag_path(tag)%></span>
+      <span class="item_title">
+        <% if public_only %>
+          <%= link_to "#{tag.title} (#{(tag.bookmarks & @bookmarks).count})", tag_path(tag)%>
+        <%else%>
+          <%= link_to "#{tag.title} (#{(tag.bookmarks & @bookmarks).count})", bookmarks_tags_user_path(current_user,tag)%>
+        <%end%>
+      </span>
     </div>
   <%end%>
 <%else%>

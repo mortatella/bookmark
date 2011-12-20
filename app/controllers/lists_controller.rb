@@ -7,10 +7,21 @@ class ListsController < ApplicationController
   end
 
   def index
-    @lists = current_user.lists
+    if signed_in?
+      @lists = current_user.lists
+    else
+      redirect_to root_path
+    end
   end
 
   def show
+    if signed_in? && current_user.lists.index(@list)
+      @public_only = false
+    elsif @list.public
+      @public_only = true
+    else
+      redirect_to root_path
+    end
   end
 
   def destroy
