@@ -69,32 +69,9 @@ class BookmarksController < ApplicationController
       end
     end 
     
-    #splits the tags from the textfield
-    tags = params[:bookmark][:tagstring].split(',')
-    tags = tags.map do |t|
-      t = t.strip
-      t = t.downcase
-    end
-    tags.uniq!
-    if !tags.nil?
-      tags.each do |t|
-        
-        #checks if a tag is already created yet
-        tag = Tag.find_by_title(t)
-        
-        #if no, the tag will be created and add to the user
-        if tag.nil?
-          tag = current_user.tags.create(:title=>t)
-        else
-          #checks if the tag is part of the user's tags yet
-          if !current_user.tags.index(tag).nil?
-            current_user.tags << tag
-          end
-        end
-        #adds the tag to the bookmark
-        b.tags << tag
-      end
-    end
+    tags = parse_tag_string(params[:bookmark][:tagstring])	
+    
+    set_tags(tags)
     
     b.save!
     
@@ -130,21 +107,17 @@ class BookmarksController < ApplicationController
     end 
     
     @bookmark.lists << tmpList
+    
+    @bookmark.tags.clear  
+    tags = parse_tag_string(params[:bookmark][:tagstring])	
+    
+    set_tags(tags)    
+	
+    @bookmark.update_attributes(:url => params[:bookmark][:url], :title => params[:bookmark][:title])
+    redirect_to bookmarks_user_path(current_user)
+  end
   
-    tags = params[:bookmark][:tagstring].split(',')
-	
-	#vor dem update sämtliche tags löschen/zerstören und später neu befüllen	
-	@bookmark.tags.each do |t|
-	    if Tag.find_by_title(t.title).bookmarks.count == 1 #existiert nur in aktuellem bookmark
-		  #tag komplett löschen
-	      t.destroy
-		else
-          #tag nur aus dem array des aktuellen bookmarks löschen, da es wo anders noch existiert
-	      @bookmark.tags.delete(t)
-		  @bookmark.save
-	    end
-	end
-	
+  def set_tags(tags)
     if !tags.nil?
       tags.each do |t|
         t = t.strip
@@ -162,9 +135,6 @@ class BookmarksController < ApplicationController
         @bookmark.tags << tag
       end
     end 
-	
-    @bookmark.update_attributes(:url => params[:bookmark][:url], :title => params[:bookmark][:title])
-    redirect_to bookmarks_user_path(current_user)
   end
 
   def new
@@ -174,6 +144,17 @@ class BookmarksController < ApplicationController
     #those are his/her own lists, and all the lists the shared
     #with the write flag true
     @available_lists = current_user.writable_lists
+  end
+  
+  #parses the tag string and creates an array of tags
+  def parse_tag_string(tagstring)
+    tags = tagstring.split(',') 
+    tags = tags.map do |t|
+      t = t.strip
+      t = t.downcase
+    end
+    tags.uniq!
+    return tags
   end
   
   def user_bookmarks
