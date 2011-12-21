@@ -2,7 +2,6 @@
     <li><%= link_to t(:home), root_path %></li>
     <li><%= link_to t(:logout), destroy_user_session_path, :method=>'delete' %></li>
     <li><%= link_to t(:my_bookmarks), bookmarks_user_path(current_user) %></li>
-    <li><%= link_to t(:my_shared_bookmarks), shared_bookmarks_user_path(current_user) %></li>
     <li><%= link_to t(:new_bookmark), new_bookmark_path %></li>
     <li><%= link_to t(:my_lists), lists_path %></li>
     <li><%= link_to t(:new_list), new_list_path %></li>
