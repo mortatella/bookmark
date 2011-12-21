@@ -16,6 +16,13 @@ class User < ActiveRecord::Base
   
   validates :firstName, :presence => true
   validates :lastName, :presence => true
+  validates :username, :presence => true 
+  validates_uniqueness_of :username
+  validates :email, :presence => true
+  
+  validates :password, :presence => true
+  validates :password_confirmation, :presence => true
+  validates_confirmation_of :password
   
   def writable_lists
     w_lists = lists.to_ary #| shares.select{|s| s.write == true}.collect{|s| s.list}.flatten.uniq
