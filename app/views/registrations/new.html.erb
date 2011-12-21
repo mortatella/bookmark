@@ -17,9 +17,9 @@
   
   <div><%= f.label :password %><br />
   <%= f.password_field :password %></div>
-
+	
   <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
+  <%= f.password_field :password_confirmation, :validate =>  { :confirmation =>true, :presence => true }%></div>
 
   <div><%= f.submit "Sign up" %></div>
 <% end %>
