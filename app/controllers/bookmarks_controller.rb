@@ -36,12 +36,8 @@ class BookmarksController < ApplicationController
   
   #shows all public bookmarks and their tags
   def index
-    @bookmarks = Bookmark.public_bookmarks.sort { |a,b| b.created_at <=> a.created_at}
-    @tags = @bookmarks.collect{|b| b.tags}.flatten.sort{ |a,b| a.bookmarks.count <=> b.bookmarks.count}
-    
-    @tags.each do |t|
-      t.bookmarks = t.bookmarks & @bookmarks
-    end 
+    @bookmarks = Bookmark.public
+    @tags = @bookmarks.collect{|b| b.tags}.flatten.uniq.sort{ |a,b| a.bookmarks.count <=> b.bookmarks.count}
   end
 
   def show
@@ -49,6 +45,7 @@ class BookmarksController < ApplicationController
   
   def destroy
     @bookmark.destroy
+    
     #redirect to the page the request came from
     redirect_to(request.env["HTTP_REFERER"])
   end
@@ -109,8 +106,8 @@ class BookmarksController < ApplicationController
     @bookmark.lists << tmpList
     
     @bookmark.tags.clear  
-    tags = parse_tag_string(params[:bookmark][:tagstring])	
     
+    tags = parse_tag_string(params[:bookmark][:tagstring])	
     set_tags(@bookmark, tags)    
 	
     @bookmark.update_attributes(:url => params[:bookmark][:url], :title => params[:bookmark][:title])
@@ -155,16 +152,6 @@ class BookmarksController < ApplicationController
     end
     tags.uniq!
     return tags
-  end
-  
-  def user_bookmarks
-    if current_user == @user
-      @bookmarks = @user.bookmarks
-      @tags = @user.tags
-    else
-      @bookmarks = @user.public_bookmarks
-      @tags = @user.public_tags
-    end
   end
 
 end

@@ -16,12 +16,18 @@ class ListsController < ApplicationController
 
   def show
     if signed_in? && current_user.lists.index(@list)
+      @bookmarks = @list.bookmarks
+      @tags = @bookmarks.collect{|b| b.tags}.flatten.uniq.sort{ |a,b| a.bookmarks.count <=> b.bookmarks.count}
       @public_only = false
     elsif @list.public
+      @bookmarks = @list.bookmarks
+      @tags = @bookmarks.collect{|b| b.tags}.flatten.uniq.sort{ |a,b| a.bookmarks.count <=> b.bookmarks.count}
       @public_only = true
     else
       redirect_to root_path
     end
+      
+      
   end
 
   def destroy
@@ -67,6 +73,4 @@ class ListsController < ApplicationController
     @users = User.all.sort{|a,b| a.username <=> b.username }
     @users.delete(current_user)
   end
-  
-  
 end

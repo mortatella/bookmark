@@ -1,22 +1,15 @@
 <div class="item_wrapper"%>
   <div class="item">
     <span class="item_title"><%= bookmark.title %></span>&nbsp;<span class="item_url"><%= link_to bookmark.url, bookmark.url%></span>, 
-    <span class="user">by <%= link_to bookmark.lists.first.user.username, bookmarks_user_path(bookmark.lists.first.user) %> </span>
+    <span class="user">by&nbsp;<%= link_to bookmark.lists.first.user.username, bookmarks_user_path(bookmark.lists.first.user) %>,&nbsp;</span>
+    <span class="date"><%= l bookmark.created_at, :format=>:short%></span>
     <div class="lists"> 
       <strong>Lists:</strong>
-      <% if public_only == true %>
-        <% bookmark.public_lists.each do |l|%>
-          <% if l != l.user.default_list %>
-            <%= link_to l.title, list_path(l) %><%= (bookmark.lists.last != l) ? ", " : ""%>
-          <%end%>
-        <%end%>
-      <%else%>
         <% bookmark.lists.each do |l|%>
           <% if l != l.user.default_list %>
             <%= link_to l.title, list_path(l) %><%= (bookmark.lists.last != l) ? ", " : ""%>
           <%end%>
-        <%end%>
-      <%end%>	
+        <%end%>	
     </div>
     <div class="tags">
       <% if !bookmark.tags.empty? %>

@@ -7,6 +7,6 @@ class TagsController < ApplicationController
   end
   
   def show
-    @bookmarks = @tag.public_bookmarks.sort {|a,b| b.created_at <=> a.created_at}
+    @bookmarks = @tag.bookmarks.public
   end
 end

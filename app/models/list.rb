@@ -4,6 +4,8 @@ class List < ActiveRecord::Base
   has_many :shares
   has_and_belongs_to_many :bookmarks
   
+  scope :public, where('public'=>true)
+  
   def self.users_lists(user_id)
     where("user_id=?",user_id)
   end
@@ -11,9 +13,4 @@ class List < ActiveRecord::Base
   def self.public_lists
     where("public=?",true)
   end
-  
-  def tags
-    return bookmarks.collect { |b| b.tags }.flatten.uniq.sort { |a,b| a.bookmarks.count <=> b.bookmarks.count}
-  end
-  
 end

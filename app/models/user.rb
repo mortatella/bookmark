@@ -42,24 +42,26 @@ class User < ActiveRecord::Base
     bookmarks_with_tag(tag) & public_bookmarks
   end
   
-  def shared_bookmarks
-   shares.collect{|s| s.list.bookmarks}.flatten
-  end
-  
-  def public_bookmarks
-    lists.select{|l| l.public}.collect{|l| l.bookmarks}.flatten
-  end
-  
   def public_tags
-    public_bookmarks.collect{|b| b.tags}.flatten.uniq
+    bookmarks.public.collect{|b| b.tags}.flatten.uniq
+  end
+  
+#   def bookmarks
+#     #bookmarks.where("id=1")
+# #     all_bookmarks = bookmarks | shared_bookmarks
+# #     all_bookmarks.each do |b|
+# #       b.lists = b.bookmarks_lists_of_user(User.find(id))
+# #     end  
+# #     return all_bookmarks
+#     Bookmark.of_user(self)
+#   end
+
+  def public_bookmarks
+    Bookmark.public_bookmarks_of_user(self)
   end
   
   def own_and_shared_bookmarks
-    all_bookmarks = bookmarks | shared_bookmarks
-    all_bookmarks.each do |b|
-      b.lists = b.bookmarks_lists_of_user(User.find(id))
-    end  
-    return all_bookmarks
+    bookmarks | Bookmark.shared_bookmarks_of_user(self)
   end
   
   def used_tags
@@ -67,7 +69,7 @@ class User < ActiveRecord::Base
   end
   
   def used_own_and_shared_tags
-    own_and_shared_bookmarks.collect{|b| b.tags}.flatten.uniq
+    bookmarks.collect{|b| b.tags}.flatten.uniq
   end
   
 end
