@@ -1,9 +1,11 @@
 Bookmakr::Application.routes.draw do
 
   resources :users do
-  get :autocomplete_tag_title, :on => :collection
-end
-get 'users/autocomplete_tag_title'
+    get :autocomplete_tag_title, :on => :collection
+	get :autocomplete_user_username, :on => :collection
+  end
+  get 'users/autocomplete_user_username'
+  get 'users/autocomplete_tag_title'
 
   resources :bookmarks
   resources :tags
