@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
    autocomplete :tag, :title
+   autocomplete :user, :username
    before_filter :get_user, :only=>[:bookmarks, :shared_bookmarks, :tag]
   
   def get_user
@@ -32,5 +33,5 @@ class UsersController < ApplicationController
     
     @bookmarks.sort {|a,b| b.created_at <=> a.created_at}
   end
-  
+   
 end
