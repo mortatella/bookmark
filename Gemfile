@@ -17,6 +17,8 @@ gem 'capistrano'
 gem 'devise'
 gem 'will_paginate', '~> 3.0'
 gem 'client_side_validations'
+gem 'rails3-jquery-autocomplete'
+gem 'nifty-generators'
 
 # Gems used only for assets and not required
 # in production environments by default.

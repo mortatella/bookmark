@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  
+   autocomplete :tag, :title
    before_filter :get_user, :only=>[:bookmarks, :shared_bookmarks, :tag]
   
   def get_user

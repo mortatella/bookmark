@@ -1,5 +1,10 @@
 Bookmakr::Application.routes.draw do
 
+  resources :users do
+  get :autocomplete_tag_title, :on => :collection
+end
+get 'users/autocomplete_tag_title'
+
   resources :bookmarks
   resources :tags
   
@@ -14,7 +19,7 @@ Bookmakr::Application.routes.draw do
   
   devise_for :users, :controllers => {:registrations => "registrations", :sesions => "devise/sessions"}
 
-  
+
   
   root :to => 'bookmarks#index'
   
