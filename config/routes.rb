@@ -8,7 +8,7 @@ Bookmakr::Application.routes.draw do
   get 'users/autocomplete_tag_title'
 
   resources :bookmarks
-  resources :tags
+  resources :tags 
   
   resources :lists do
     get :share, :on=>:member

@@ -1,4 +1,6 @@
 class SharesController < ApplicationController
+
+
   
   before_filter :authenticate_user!
   
@@ -11,15 +13,15 @@ class SharesController < ApplicationController
   def destroy
     @share.destroy
     
-    redirect_to lists_path
+    redirect_to lists_path 
   end
 
   def create
     @share = Share.new(params[:share])
     list = List.find(params[:list_id])
     
-    params[:user][:user_id].each do |u|
-      user = User.find(u.to_i)
+    parse_user_string(params[:user]).each do |u|
+      user = User.find_by_username(u)
       share = list.shares.create(params[:share])
       share.user = user
       share.save
@@ -42,6 +44,15 @@ class SharesController < ApplicationController
     @share = Share.new
     @available_users = User.all
     @shareable_lsits = current_user.lists
+  end
+  
+  #parses the tag string and creates an array of users
+  def parse_user_string(userstring)
+    users = userstring.split(',') 
+    users = users.map do |u|
+      u = u.strip
+    end
+    return users
   end
 
 end

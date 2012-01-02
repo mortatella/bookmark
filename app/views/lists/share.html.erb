@@ -1,8 +1,8 @@
 <%= form_for(@share) do |f| %>
   <div><%= f.label :write%><%=f.check_box :write%></div>
   <div>
-  <%=select("user", "user_id", @users.collect {|u| [u.username, u.id ] }, {:prompt => "Select Product"},
-                        {:multiple => true})%>
+  <%= text_field_tag "user",'', :'data-autocomplete' => users_autocomplete_user_username_path, :'data-delimiter' => ',' %>
+
   <div><%= hidden_field_tag  'list_id', @list.id %></div>  
   <div><%= f.submit%></div>
 <%end%>

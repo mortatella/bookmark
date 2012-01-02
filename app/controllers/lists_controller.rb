@@ -29,7 +29,7 @@ class ListsController < ApplicationController
       
       
   end
-
+ 
   def destroy
     @list.bookmarks.each do |b|
       #if a bookmark is only in the list to destroy and the users default_list it can be destroyed
