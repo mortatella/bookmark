@@ -8,29 +8,25 @@ class UsersController < ApplicationController
   
   def bookmarks
     if current_user == @user
-      @bookmarks = @user.own_and_shared_bookmarks
+      @bookmarks = @user.own_and_shared_bookmarks.paginate(:page => params[:page])
       @tags = @bookmarks.collect{|b| b.tags}.flatten.sort{ |a,b| a.bookmarks.count <=> b.bookmarks.count}.uniq
       @public_only = false
     else
-      @bookmarks = @user.public_bookmarks
+      @bookmarks = @user.public_bookmarks.paginate(:page => params[:page])
       @tags = @bookmarks.collect{|b| b.tags}.flatten.sort{ |a,b| a.bookmarks.count <=> b.bookmarks.count}.uniq
       @public_only = true
     end
   end 
-  
-  def shared_bookmarks
-    @bookmarks = @user.shared_bookmarks.sort { |a,b| b.created_at <=> a.created_at}
-    @tags = @bookmarks.collect { |b| b.tags }.flatten.sort { |a,b| a.bookmarks.count <=> b.bookmarks.count}
-  end
+ 
   
   def tag
     @tag = Tag.find(params[:tag_id])
     
     if current_user == @user 
-      @bookmarks = current_user.bookmarks_with_tag(@tag)
+      @bookmarks = current_user.bookmarks_with_tag(@tag).paginate(:page => params[:page])
       @public_only = false;
     else
-      @bookmarks = @user.public_bookmarks_with_tag(@tag)
+      @bookmarks = @user.public_bookmarks_with_tag(@tag).paginate(:page => params[:page])
       @public_only = true
     end
     

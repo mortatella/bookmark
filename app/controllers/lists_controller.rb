@@ -16,11 +16,11 @@ class ListsController < ApplicationController
 
   def show
     if signed_in? && current_user.lists.index(@list)
-      @bookmarks = @list.bookmarks
+      @bookmarks = @list.bookmarks.paginate(:page => params[:page])
       @tags = @bookmarks.collect{|b| b.tags}.flatten.uniq.sort{ |a,b| a.bookmarks.count <=> b.bookmarks.count}
       @public_only = false
     elsif @list.public
-      @bookmarks = @list.bookmarks
+      @bookmarks = @list.bookmarks.paginate(:page => params[:page])
       @tags = @bookmarks.collect{|b| b.tags}.flatten.uniq.sort{ |a,b| a.bookmarks.count <=> b.bookmarks.count}
       @public_only = true
     else

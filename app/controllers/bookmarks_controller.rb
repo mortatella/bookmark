@@ -36,7 +36,7 @@ class BookmarksController < ApplicationController
   
   #shows all public bookmarks and their tags
   def index
-    @bookmarks = Bookmark.public
+    @bookmarks = Bookmark.public.paginate(:page => params[:page])
     @tags = @bookmarks.collect{|b| b.tags}.flatten.uniq.sort{ |a,b| a.bookmarks.count <=> b.bookmarks.count}
   end
 
