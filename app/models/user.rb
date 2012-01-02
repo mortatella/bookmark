@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
   end
   
   def own_and_shared_bookmarks
-    bookmarks | Bookmark.shared_bookmarks_of_user(self)
+    Bookmark.own_and_shared_bookmarks_of_user(self)
   end
   
   def used_tags

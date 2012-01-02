@@ -7,6 +7,6 @@ class TagsController < ApplicationController
   end
   
   def show
-    @bookmarks = @tag.bookmarks.public
+    @bookmarks = @tag.bookmarks.public.paginate(:page => params[:page])
   end
 end
