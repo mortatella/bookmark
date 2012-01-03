@@ -1,11 +1,11 @@
 Bookmakr::Application.routes.draw do
 
-  resources :users do
-    get :autocomplete_tag_title, :on => :collection
-	get :autocomplete_user_username, :on => :collection
-  end
-  get 'users/autocomplete_user_username'
-  get 'users/autocomplete_tag_title'
+#   resources :users do
+#     get :autocomplete_tag_title, :on => :collection
+# 	get :autocomplete_user_username, :on => :collection
+#   end
+#   get 'users/autocomplete_user_username'
+#   get 'users/autocomplete_tag_title'
 
   resources :bookmarks
   resources :tags 
@@ -18,6 +18,8 @@ Bookmakr::Application.routes.draw do
   match "/users/:id/bookmarks" => "users#bookmarks", :as=>"bookmarks_user"
   match "/users/:id/sharedbookmarks" => "users#shared_bookmarks", :as=>"shared_bookmarks_user"
   match "/users/:id/tag/:tag_id/" => "users#tag", :as=>"bookmarks_tags_user"
+  match "/users/autocomplete_user_username" => "users#autocomplete_user_username", :as=>"autocomplete_user_username_users"
+  match "/users/autocomplete_tag_title" => "users#autocomplete_tag_title", :as=>"autocomplete_tag_title_users"
   
   devise_for :users, :controllers => {:registrations => "registrations", :sesions => "devise/sessions"}
 
