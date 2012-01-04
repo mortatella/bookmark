@@ -68,9 +68,10 @@ class ListsController < ApplicationController
     @list = List.new
   end
   
-  def share
-    @share = @list.shares.new()
-    @users = User.all.sort{|a,b| a.username <=> b.username }
-    @users.delete(current_user)
-  end
+#   def share
+#     @share = @list.shares.new()
+#     @users = User.all.sort{|a,b| a.username <=> b.username }
+#     @users.delete(current_user)
+#     render :tepmlate=>'shares/new'
+#   end
 end

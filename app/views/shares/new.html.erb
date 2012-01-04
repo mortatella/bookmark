@@ -1,1 +1,20 @@
-<%= render :partial => "form" %>
+<%= form_for(@share) do |f| %>
+<div id="errors">
+  <%= f.error_messages %>
+
+  <ul>
+      <% @share.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+  </ul>
+
+  
+</div>
+  <div><%= f.label :write%><%=f.check_box :write%></div>
+  <div>
+  <%= f.label :users%>
+  <%= text_field_tag "user",'', :'data-autocomplete' => users_autocomplete_user_username_path, :'data-delimiter' => ',' %>
+  </div>
+  <div><%= hidden_field_tag  'list_id', @list.id %></div>  
+  <div><%= f.submit%></div>
+<%end%>

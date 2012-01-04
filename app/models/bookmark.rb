@@ -6,7 +6,7 @@ class Bookmark < ActiveRecord::Base
   default_scope order('bookmarks.created_at DESC')
   scope :public, joins(:lists).where('lists.public'=>true).includes(:lists).where('lists.public'=>true)
   
-  self.per_page = 1
+  self.per_page = 10
   
   #returns all public bookmarks tagged with tag
   def self.find_public_bookmarks_with_tag(tag)

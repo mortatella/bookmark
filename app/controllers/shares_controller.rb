@@ -20,25 +20,23 @@ class SharesController < ApplicationController
     @share = Share.new(params[:share])
     list = List.find(params[:list_id])
     valid = true
+    
     parse_user_string(params[:user]).each do |u|
-	  if User.find_by_username(u) != current_user #filter current_user
+      if User.find_by_username(u) != current_user #filter current_user
         user = User.find_by_username(u)
         share = list.shares.create(params[:share])
         share.user = user
-        share.save
-		
-		if !share.valid?
-		  valid = false
-		end
-	  end
-    end
-	
-	if valid == true
-      redirect_to lists_path
-	else
-	#  redirect_to :back
-    end
-
+        share.save	
+	   if !share.valid?
+            valid = false
+          end
+        end
+      end
+      if valid == true
+        redirect_to lists_path
+      else
+        
+      end
   end
 
   def edit
@@ -52,9 +50,10 @@ class SharesController < ApplicationController
   end
 
   def new
-    @share = Share.new
-    @available_users = User.all
-    @shareable_lsits = current_user.lists
+    @list = List.find(params[:listid])
+    @share = @list.shares.new()
+    @users = User.all.sort{|a,b| a.username <=> b.username }
+    @users.delete(current_user)
   end
   
   #parses the user string and creates an array of users

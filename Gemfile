@@ -19,6 +19,7 @@ gem 'will_paginate', '~> 3.0'
 gem 'client_side_validations'
 gem 'rails3-jquery-autocomplete'
 gem 'nifty-generators'
+gem 'permalink_fu', '~> 1.0.0'
 
 # Gems used only for assets and not required
 # in production environments by default.
