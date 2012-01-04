@@ -19,15 +19,26 @@ class SharesController < ApplicationController
   def create
     @share = Share.new(params[:share])
     list = List.find(params[:list_id])
-    
+    valid = true
     parse_user_string(params[:user]).each do |u|
-      user = User.find_by_username(u)
-      share = list.shares.create(params[:share])
-      share.user = user
-      share.save
+	  if User.find_by_username(u) != current_user #filter current_user
+        user = User.find_by_username(u)
+        share = list.shares.create(params[:share])
+        share.user = user
+        share.save
+		
+		if !share.valid?
+		  valid = false
+		end
+	  end
     end
-    
-    redirect_to lists_path
+	
+	if valid == true
+      redirect_to lists_path
+	else
+	#  redirect_to(request.env["HTTP_REFERER"])
+    end
+
   end
 
   def edit
@@ -46,7 +57,7 @@ class SharesController < ApplicationController
     @shareable_lsits = current_user.lists
   end
   
-  #parses the tag string and creates an array of users
+  #parses the user string and creates an array of users
   def parse_user_string(userstring)
     users = userstring.split(',') 
     users = users.map do |u|
