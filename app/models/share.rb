@@ -4,12 +4,10 @@ class Share < ActiveRecord::Base
   
   validates :user_id, :presence => { :message => "not found" }
   validate :validateCurrentUser
-  
- @list = List.find(params[:id])
-  @share.list = @list
+ 
   
   def validateCurrentUser
-    errors.add(:user_id, ", can't share list with yourself") if user_id == @share.list.user.id
+    errors.add(:user_id, ", can't share list with yourself") if user_id == list.user.id
   end
   
 end
