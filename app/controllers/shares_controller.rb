@@ -19,24 +19,15 @@ class SharesController < ApplicationController
   def create
     @share = Share.new(params[:share])
     list = List.find(params[:list_id])
-    valid = true
+
     
     parse_user_string(params[:user]).each do |u|
-      if User.find_by_username(u) != current_user #filter current_user
+    #  if User.find_by_username(u) != current_user #filter current_user
         user = User.find_by_username(u)
         share = list.shares.create(params[:share])
         share.user = user
-        share.save	
-	   if !share.valid?
-            valid = false
-          end
-        end
-      end
-      if valid == true
-        redirect_to lists_path
-      else
-        
-      end
+        share.save	       
+      end      
   end
 
   def edit
