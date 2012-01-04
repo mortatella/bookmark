@@ -35,7 +35,6 @@ class SharesController < ApplicationController
       if valid == true
         redirect_to lists_path
       else
-        
       end
   end
 

@@ -20,7 +20,7 @@ Bookmakr::Application.routes.draw do
   
   match "/list/:listid/share" =>"shares#new", :as=>"share_list"
   
-  devise_for :users, :controllers => {:registrations => "registrations", :sesions => "devise/sessions"}
+  devise_for :users, :controllers => {:registrations => "registrations", :sessions => "devise/sessions"}
 
 
   
