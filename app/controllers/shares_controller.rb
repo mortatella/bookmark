@@ -36,7 +36,7 @@ class SharesController < ApplicationController
 	if valid == true
       redirect_to lists_path
 	else
-	#  redirect_to(request.env["HTTP_REFERER"])
+	#  redirect_to :back
     end
 
   end
