@@ -1,13 +1,6 @@
 <%= form_for(@share) do |f| %>
 <div id="errors">
   <%= f.error_messages %>
-
-  <ul>
-      <% @share.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-  </ul>
-
   
 </div>
   <div><%= f.label :write%><%=f.check_box :write%></div>
