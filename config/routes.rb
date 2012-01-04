@@ -18,7 +18,7 @@ Bookmakr::Application.routes.draw do
   match "/users/:id/sharedbookmarks" => "users#shared_bookmarks", :as=>"shared_bookmarks_user"
   match "/users/:id/tag/:tag_id/" => "users#tag", :as=>"bookmarks_tags_user"
   
-  match "/list/:listid/share" =>"shares#new", :as=>"share_list"
+  #match "/list/:listid/share" =>"shares#new", :as=>"share_list"
   
   devise_for :users, :controllers => {:registrations => "registrations", :sessions => "devise/sessions"}
 

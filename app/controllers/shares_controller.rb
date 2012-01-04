@@ -17,17 +17,33 @@ class SharesController < ApplicationController
   end
 
   def create
-    @share = Share.new(params[:share])
-    list = List.find(params[:list_id])
-
+    @list = List.find(params[:list_id])
     
-    parse_user_string(params[:user]).each do |u|
-    #  if User.find_by_username(u) != current_user #filter current_user
+    is_valid=true
+    
+    users = parse_user_string(params[:user])
+    
+    if users.empty?
+      is_valid=false
+    else
+      users.each do |u|
+      #  if User.find_by_username(u) != current_user #filter current_user
         user = User.find_by_username(u)
-        share = list.shares.create(params[:share])
-        share.user = user
-        share.save	       
-      end      
+        @share = @list.shares.create(params[:share])
+        @share.user = user
+        if @share.valid?
+          @share.save	       
+        else
+          is_valid = false
+        end      
+      end
+    end
+    
+    if is_valid
+      redirect_to lists_path
+    else
+      render :template=>"shares/new"
+    end
   end
 
   def edit
