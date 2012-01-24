@@ -31,4 +31,35 @@ class Bookmark < ActiveRecord::Base
     Bookmark.includes(:lists).where("lists.user_id= ? or lists.id IN (?)",user.id,list_ids)
   end
   
+  #parses the tag string and creates an array of tags
+  def self.parse_tag_string(tagstring)
+    tags = tagstring.split(',') 
+    tags = tags.map do |t|
+      t = t.strip
+      t = t.downcase
+    end
+    tags.uniq!
+    return tags
+  end
+  
+  def set_tags(user, newtags)
+    if !newtags.nil?
+      newtags.each do |t|
+        t = t.strip
+        t = t.downcase
+        
+        tag = Tag.find_by_title(t)
+        
+        if tag.nil?
+          tag = user.tags.create(:title=>t)
+        else
+          if !user.tags.index(tag).nil?
+            user.tags << tag
+          end
+        end
+        tags << tag
+      end
+    end 
+  end
+  
 end
