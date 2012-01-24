@@ -1,11 +1,10 @@
 class SharesController < ApplicationController
-
-
-  
+protected 
   before_filter :authenticate_user!
   
   before_filter :get_share, :only=>[:edit,:destroy,:update]
-  
+
+public  
   def get_share
     @share = Share.find(params[:id])
   end

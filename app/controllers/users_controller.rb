@@ -1,8 +1,11 @@
 class UsersController < ApplicationController
    autocomplete :tag, :title
    autocomplete :user, :username
+
+protected
    before_filter :get_user, :only=>[:bookmarks, :shared_bookmarks, :tag]
-  
+
+public  
   def get_user
     @user = User.find(params[:id])
   end

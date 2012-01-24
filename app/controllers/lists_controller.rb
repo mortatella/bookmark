@@ -1,7 +1,8 @@
 class ListsController < ApplicationController
-
+protected
   before_filter :get_list, :only=>[:show, :edit, :update, :destroy, :share, :bookmarks]
-  
+
+public  
   def get_list
     @list = List.find(params[:id])
   end

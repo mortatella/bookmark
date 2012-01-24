@@ -24,52 +24,26 @@ class User < ActiveRecord::Base
   validates :password_confirmation, :presence => true
   validates_confirmation_of :password
   
-  def writable_lists
+  def writable_lists#used
     w_lists = lists.to_ary #| shares.select{|s| s.write == true}.collect{|s| s.list}.flatten.uniq
     w_lists.delete(default_list)
     return w_lists
   end
   
-  def shared_lists
-    shares.collect{|s| s.list}.flatten
-  end
-  
-  def bookmarks_with_tag(tag)
+  def bookmarks_with_tag(tag)#used
     tags.select{|t| t.title == tag.title}.collect{|t| t.bookmarks}.flatten.uniq
   end
   
-  def public_bookmarks_with_tag(tag)
+  def public_bookmarks_with_tag(tag)#used
     bookmarks_with_tag(tag) & public_bookmarks
   end
-  
-  def public_tags
-    bookmarks.public.collect{|b| b.tags}.flatten.uniq
-  end
-  
-#   def bookmarks
-#     #bookmarks.where("id=1")
-# #     all_bookmarks = bookmarks | shared_bookmarks
-# #     all_bookmarks.each do |b|
-# #       b.lists = b.bookmarks_lists_of_user(User.find(id))
-# #     end  
-# #     return all_bookmarks
-#     Bookmark.of_user(self)
-#   end
 
-  def public_bookmarks
+  def public_bookmarks#used
     Bookmark.public_bookmarks_of_user(self)
   end
   
-  def own_and_shared_bookmarks
+  def own_and_shared_bookmarks#used
     Bookmark.own_and_shared_bookmarks_of_user(self)
-  end
-  
-  def used_tags
-    bookmarks.collect{|b| b.tags}.flatten.uniq
-  end
-  
-  def used_own_and_shared_tags
-    bookmarks.collect{|b| b.tags}.flatten.uniq
   end
   
 end

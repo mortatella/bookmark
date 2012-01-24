@@ -1,7 +1,8 @@
 class RegistrationsController < Devise::RegistrationsController
-  
+protected
    before_filter :get_user, :only=>[:bookmarks]
   
+public
   def get_user
     @user = User.find(params[:id])
   end
