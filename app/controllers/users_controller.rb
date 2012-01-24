@@ -1,15 +1,5 @@
-class UsersController < ApplicationController
-   autocomplete :tag, :title
-   autocomplete :user, :username
+class UsersController < ApplicationController 
 
-protected
-   before_filter :get_user, :only=>[:bookmarks, :shared_bookmarks, :tag]
-
-public  
-  def get_user
-    @user = User.find(params[:id])
-  end
-  
   def bookmarks
     if current_user == @user
       @bookmarks = @user.own_and_shared_bookmarks.paginate(:page => params[:page])
@@ -21,7 +11,6 @@ public
       @public_only = true
     end
   end 
- 
   
   def tag
     @tag = Tag.find(params[:tag_id])
@@ -35,6 +24,16 @@ public
     end
     
     @bookmarks.sort {|a,b| b.created_at <=> a.created_at}
+  end
+  
+  protected
+  
+  autocomplete :tag, :title
+   autocomplete :user, :username
+   before_filter :get_user, :only=>[:bookmarks, :shared_bookmarks, :tag]
+  
+  def get_user
+    @user = User.find(params[:id])
   end
    
 end

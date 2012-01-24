@@ -7,12 +7,19 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :firstName, :lastName, :username
   
-
   belongs_to :default_list, :foreign_key=>:default_list_id, :class_name=>'List'
   has_many :lists
   has_many :bookmarks, :through => :lists
   has_many :shares
   has_and_belongs_to_many :tags
+  
+#  scope :writable_lists, includes(:lists).where('lists.id _not'=>user.default_list.id)
+  
+  def writable_lists
+    w_lists = lists.to_ary | shares.select{|s| s.write == true}.collect{|s| s.list}.flatten.uniq
+    w_lists.delete(default_list)
+    return w_lists
+  end
   
   validates :firstName, :presence => true
   validates :lastName, :presence => true
@@ -24,25 +31,25 @@ class User < ActiveRecord::Base
   validates :password_confirmation, :presence => true
   validates_confirmation_of :password
   
-  def writable_lists#used
+  def writable_lists
     w_lists = lists.to_ary #| shares.select{|s| s.write == true}.collect{|s| s.list}.flatten.uniq
     w_lists.delete(default_list)
     return w_lists
   end
   
-  def bookmarks_with_tag(tag)#used
+  def bookmarks_with_tag(tag)
     tags.select{|t| t.title == tag.title}.collect{|t| t.bookmarks}.flatten.uniq
   end
   
-  def public_bookmarks_with_tag(tag)#used
+  def public_bookmarks_with_tag(tag)
     bookmarks_with_tag(tag) & public_bookmarks
   end
 
-  def public_bookmarks#used
+  def public_bookmarks
     Bookmark.public_bookmarks_of_user(self)
   end
   
-  def own_and_shared_bookmarks#used
+  def own_and_shared_bookmarks
     Bookmark.own_and_shared_bookmarks_of_user(self)
   end
   

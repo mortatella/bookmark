@@ -1,17 +1,28 @@
+New Tasks:
+- Paginaiton bei Tags
+
+
+
+
+
 * Tests sind keine vorhanden, waren aber auch nicht gefordert. Bitte achtet nur darauf, dass sie korrekt durchlaufen (also zumindest die nicht funktionierenden Tests und Fixtures entfernt werden und ein "rake test" keine Fehler produziert).
-* Kommentare in routes.rb unnötig, würde ich entfernen
-* routes.rb: Routen doppelt definiert, users-Routen aufräumen (unbenutzte Routes, zusammenfassen in einem Block, ev. mehr RESTmäßig aufbauen.
-* tags_controller: before_filter als protected markieren und unterhalb der Actions platzieren. Außerdem definiert der before_filter Actions, die es gar nicht gibt.
+* Kommentare in routes.rb unnötig, würde ich entfernen MX
+* routes.rb: Routen doppelt definiert, users-Routen aufräumen (unbenutzte Routes, zusammenfassen in einem Block, ev. mehr RESTmäßig aufbauen. #Raidel fragen
+* tags_controller: before_filter als protected markieren und unterhalb der Actions platzieren. Außerdem definiert der before_filter Actions, die es gar nicht gibt.  MX
 * bookmarks_controller: Kommentare bei den before_filters eigentlich unnötig, da die Filternamen den Zweck schon gut erklären sollten (ihr habt überhaupt öfter Kommentare wo der Code selbst erklärend genug ist), before_filter protected (siehe oben)
-* bookmarks_controller: set_tags und parse_tag_string sollten im Model (Bookmark) sein. Auch die Zuweisung der Listen könnte man vereinfachen und aus dem Controller entfernen (für solche Fälle eignet sich oft accepts_nested_attributes_for, in diesem Fall sollte aber die direkte Zuweisung ausreichend sein, da list_ids= eine automatisch generierte Methode der has_and_belongs_to_many-Beziehung ist!). Noch etwas zu set_tags: ihr solltet direkt die AR-Beziehung zum Finden verwenden, dann spart ihr euch das aufwändige Vergleichen, ob das auch ein Tag des Users ist (z.B. "current_user.tags.find(...))
-* bookmarks_controller#edit: das each das euch den Tags-String zusammenbaut, könntet ihr komplett durch die Array-Methode "join" ersetzen: ["a","b"].join(",")
- => "a,b"
-* bookmarks_controller: if ! => unless (auch die Klammern lässt man in Ruby meist weg, wenn die Lesbarkeit gegeben ist).
+* bookmarks_controller: set_tags und parse_tag_string sollten im Model (Bookmark) sein. MX
+*Auch die Zuweisung der Listen könnte man vereinfachen und aus dem Controller entfernen (für solche Fälle eignet sich oft accepts_nested_attributes_for, in diesem Fall sollte aber die direkte Zuweisung ausreichend sein, da list_ids= eine automatisch generierte Methode der has_and_belongs_to_many-Beziehung ist!). 
+* Noch etwas zu set_tags: ihr solltet direkt die AR-Beziehung zum Finden verwenden, dann spart ihr euch das aufwändige Vergleichen, ob das auch ein Tag des Users ist (z.B. "current_user.tags.find(...))
+* bookmarks_controller#edit: das each das euch den Tags-String zusammenbaut, könntet ihr komplett durch die Array-Methode "join" ersetzen: ["a","b"].join(",")  => "a,b" MX
+* bookmarks_controller: if ! => unless (auch die Klammern lässt man in Ruby meist weg, wenn die Lesbarkeit gegeben ist). MX
+
 * bookmarks_controller: is_user_allowed_to bietet einige Vereinfachungsmöglichkeiten. Statt bookmarks.index könntet (und solltet) ihr direkt bookmarks.find verwenden, da ansonsten alle Bookmarks in den Speicher geladen werden. Ähnliches gilt für das write-Attribut bei den Shares. Zuletzt könntet ihr auch die ActiveRecord-Assoziation für shared_bookmarks definieren (z.B. mit selbstgeschriebenem JOIN) und hier dann ebenfalls mit einem .find arbeiten (also statt das Bookmark zu finden und dann mit einer Liste zu vergleichen würdet ihr das Bookmark direkt über die Assoziation finden). Noch etwas: das "allowed = true" würdet ihr nicht brauchen, ihr könntet statt dessen einfach ein "return if" schreiben, dann kommt ihr nicht mehr bis zum redirect.
-* bookmarks_controller#create: ihr weist alle Attribute manuell zu, anstatt einfach mass_assignment zu verwenden! Ihr braucht in Ruby nicht "if !foo.nil?" schreiben, "if foo" hat (fast) denselben Effekt.
-* CamelCased AR-Attribute und Methodennamen (Ruby-Konvention hier ist underscored)
-* User#writeable_lists: ich habe nicht ganz verstanden, wieso die default_list hier herausgenommen wird, ihr solltet das aber DB-seitig machen (z.B. durch die Verwendung eines Scopes)
-* User#shared_lists: shared_lists könntet ihr auch per Assoziation definieren (z.B. "has_many :shared_lists, :through => :shares, :source => :list"). Auch bei den weiteren Methoden gibt es hier einiges Potential, mehr über AR-Möglichkeiten abzubilden!
+
+* bookmarks_controller#create: ihr weist alle Attribute manuell zu, anstatt einfach mass_assignment zu verwenden!  // geht nicht wegen tagstring
+* Ihr braucht in Ruby nicht "if !foo.nil?" schreiben, "if foo" hat (fast) denselben Effekt. MX
+* CamelCased AR-Attribute und Methodennamen (Ruby-Konvention hier ist underscored) MX
+* User#writeable_lists: ich habe nicht ganz verstanden, wieso die default_list hier herausgenommen wird, ihr solltet das aber DB-seitig machen (z.B. durch die Verwendung eines Scopes) // wieso mit scopes? macht keinen Sinn..
+* User#shared_lists: shared_lists könntet ihr auch per Assoziation definieren (z.B. "has_many :shared_lists, :through => :shares, :source => :list"). Auch bei den weiteren Methoden gibt es hier einiges Potential, mehr über AR-Möglichkeiten abzubilden! 
 * Rubyism: keine Klammern bei einer Methode ohne Argumente, kein Semikolon am Ende einer Zeile! Bspw. im shares_controller habt ihr auch einige Tabs (statt 2 Spaces) als Einrückung.
 * lists_controller#share: tepmlate statt template, manuelle Sortierung statt in der DB, auch das delete sollte in der DB gemacht werden.
 * lists_controller#show: es sieht so aus, als würde @tags nicht verwendet, auch diese Operation könnte sonst in der DB stattfinden (außerdem ist die Zeile dupliziert). 

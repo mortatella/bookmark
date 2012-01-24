@@ -5,9 +5,9 @@ class Share < ActiveRecord::Base
   validates :user_id, :presence => { :message => "not found" }
   # the combination of user_id and list_id is only allowed once
   validates :user_id, :uniqueness => { :scope => :list_id, :message => "already stated" }
-  validate :validateCurrentUser
+  validate :validate_current_user
  
-  def validateCurrentUser
+  def validate_current_user
     errors.add(list.user.username, ", can't share list with yourself") if user_id == list.user.id
   end
   
