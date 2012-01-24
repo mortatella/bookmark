@@ -1,9 +1,1 @@
-<div id="tags_wrapper">
-  <%= render "bookmarks/tags", :locals=>{:tags=>@tags, :public_only=>@public_only} %>
-</div>
-<div id="bookmarks_wrapper">
-  <div id="bookmarks">
-     <%= render "bookmarks/bookmarks", :locals=>{:bookmarks=>@bookmarks, :public_only=>@public_only} %>
-  </div>
-</div>
-<div class="clear"></div>
+<%= render :partial=>"bookmarks/bookmarks_with_tags", :locals=>{:public_only => @public_only, :bookmarks=>@bookmarks, :tags=>@tags} %>
