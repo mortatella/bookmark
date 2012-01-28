@@ -8,10 +8,13 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :username
   
   belongs_to :default_list, :foreign_key=>:default_list_id, :class_name=>'List'
+  has_and_belongs_to_many :tags
+  
+  
   has_many :lists
   has_many :bookmarks, :through => :lists
   has_many :shares
-  has_and_belongs_to_many :tags
+  
   
 #  scope :writable_lists, includes(:lists).where('lists.id _not'=>user.default_list.id)
   
