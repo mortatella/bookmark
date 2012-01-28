@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class TagsControllerTest < ActionController::TestCase
+=begin
   test "should get index" do
     get :index
     assert_response :success
@@ -35,5 +36,5 @@ class TagsControllerTest < ActionController::TestCase
     get :new
     assert_response :success
   end
-
+=end
 end

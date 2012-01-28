@@ -1,5 +1,4 @@
-* Tests sind keine vorhanden, waren aber auch nicht gefordert. 
-Bitte achtet nur darauf, dass sie korrekt durchlaufen (also zumindest die nicht funktionierenden Tests und Fixtures entfernt werden und ein "rake test" keine Fehler produziert).
+
 
 MX * Kommentare in routes.rb unnötig, würde ich entfernen MX
 

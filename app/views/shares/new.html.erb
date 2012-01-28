@@ -1,10 +1,12 @@
 <%= form_for(@share) do |f| %>
- 
+ <% if @all_errors %>
   <ul>
   <% @all_errors.each do |e| %>
     <li><%= e[0] %> <%= e[1] %></li>
   <% end %>
   </ul>
+ <% end %>
+  
   <div><%= f.label :write%><%=f.check_box :write%></div>
   <div>
   <%= f.label :users%>
