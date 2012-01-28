@@ -18,17 +18,17 @@ public
   def show
     if signed_in? && current_user.lists.index(@list)
       @bookmarks = @list.bookmarks.paginate(:page => params[:page])
-      @tags = @bookmarks.collect{|b| b.tags}.flatten.uniq.sort{ |a,b| a.bookmarks.count <=> b.bookmarks.count}
       @public_only = false
     elsif @list.public
       @bookmarks = @list.bookmarks.paginate(:page => params[:page])
-      @tags = @bookmarks.collect{|b| b.tags}.flatten.uniq.sort{ |a,b| a.bookmarks.count <=> b.bookmarks.count}
       @public_only = true
     else
       redirect_to root_path
-    end
-      
-      
+    end  
+    
+    if @boomarks
+    	@tags = @bookmarks.collect{|b| b.tags}.flatten.uniq.sort{ |a,b| a.bookmarks.count <=> b.bookmarks.count}
+    end  
   end
  
   def destroy
@@ -70,9 +70,8 @@ public
   end
   
   def share
-    @share = @list.shares.new()
-    @users = User.all.sort{|a,b| a.username <=> b.username }
-    @users.delete(current_user)
+    @share = @list.shares.new
+    @users = User.all_users_except current_user
     render :template=>'shares/new'
   end
 end

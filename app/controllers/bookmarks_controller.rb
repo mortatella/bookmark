@@ -1,6 +1,6 @@
 class BookmarksController < ApplicationController
 
-  public	
+  public
   #shows all public bookmarks and their tags
   def index
     @bookmarks = Bookmark.public.paginate(:page => params[:page])
@@ -69,13 +69,13 @@ class BookmarksController < ApplicationController
     
     tags = Bookmark.parse_tag_string(params[:bookmark][:tagstring])	
     @bookmark.set_tags(current_user, tags)    
-	
+
     @bookmark.update_attributes(:url => params[:bookmark][:url], :title => params[:bookmark][:title])
     redirect_to bookmarks_user_path(current_user)
   end
 
   def new
-    @bookmark = Bookmark.new(:title=>DateTime.now, :url=>"http://www.derstandard.at")
+    @bookmark = Bookmark.new
 
     #stores all lists, the user is allowed to write in
     #those are his/her own lists, and all the lists the shared

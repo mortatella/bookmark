@@ -13,4 +13,5 @@ class List < ActiveRecord::Base
   def self.public_lists
     where("public=?",true)
   end
+
 end

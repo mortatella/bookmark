@@ -1,5 +1,4 @@
 module BookmarksHelper
-
   def user_allowed_to_edit(user, bookmark)
     allowed = false
     if(!current_user.bookmarks.index(bookmark).nil?)
