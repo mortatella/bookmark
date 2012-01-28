@@ -22,41 +22,41 @@ public
     @share = @list.shares.create(params[:share])
     users = parse_user_string(params[:user])
     
-	# all users get validated. in case all of them are valid,
-	# they get stored in database. Otherwise the valid users
-	# show up again in the textfield for the user to correct them
-	@validUsers = []
-	@all_errors = [] # stores all errors of all users
-	
-	
-	users.each do |u|
-	  user = User.find_by_username(u)
-        @share.user = user
-        if @share.valid? && !@validUsers.include?(user.username) #checks if name is stated multiple times
-          @validUsers << user.username << ','
+    # all users get validated. in case all of them are valid,
+    # they get stored in database. Otherwise the valid users
+    # show up again in the textfield for the user to correct them
+    @validUsers = []
+    @all_errors = [] # stores all errors of all users
+    users.each do |u|
+      user = User.find_by_username(u)
+      @share.user = user
+      
+      if @share.valid? && !@validUsers.include?(user.username) #checks if name is stated multiple times
+        @validUsers << user.username << ','
       else
-	    error = []
-	    error[0] = u
-		error[1] = @share.errors.values.last[0]
-		@all_errors << error
-		
-        is_valid = false
+        error = []
+        error[0] = u
+        error[1] = @share.errors.values.last[0]
+        @all_errors << error
+        is_valid = false 
       end  
-	end
-	
+    end
+    
     if users.empty?
       is_valid=false
     end
-	
-	if is_valid == true
+    
+    if is_valid == true
       users.each do |u|
         user = User.find_by_username(u)
         @share = @list.shares.create(params[:share])
         @share.user = user
+        
         if @share.valid?
           @share.save
         else
           is_valid = false
+        
         end      
       end
     end
@@ -67,7 +67,7 @@ public
       render :template=>"shares/new"
     end
   end
-
+  
   def edit
     
   end
@@ -80,7 +80,7 @@ public
 
   def new
     @list = List.find(params[:listid])
-    @share = @list.shares.new()
+    @share = @list.shares.new
     @users = User.all.sort{|a,b| a.username <=> b.username }
     @users.delete(current_user)
   end

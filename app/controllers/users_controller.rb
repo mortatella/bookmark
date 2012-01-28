@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     
     if current_user == @user 
       @bookmarks = current_user.bookmarks_with_tag(@tag).paginate(:page => params[:page])
-      @public_only = false;
+      @public_only = false
     else
       @bookmarks = @user.public_bookmarks_with_tag(@tag).paginate(:page => params[:page])
       @public_only = true

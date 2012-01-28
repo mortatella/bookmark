@@ -11,7 +11,7 @@ public
     super
     if  @user.valid?
       @user.default_list = @user.lists.create(:title=>@user.username+"s default list",:description=>"Default list of "+@user.username)
-      @user.default_list.user = @user;
+      @user.default_list.user = @user
       @user.save
      end
   end  

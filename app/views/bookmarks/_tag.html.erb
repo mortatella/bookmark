@@ -1,9 +1,9 @@
 <div class="tag_item">
-      <span class="item_title">
-        <% if public_only %>
-          <%= link_to "#{tag.title} (#{(tag.bookmarks & @bookmarks).count})", tag_path(tag)%>
-        <%else%>
-          <%= link_to "#{tag.title} (#{(tag.bookmarks & @bookmarks).count})", bookmarks_tags_user_path(current_user,tag)%>
-        <%end%>
-      </span>
-    </div>
+  <span class="item_title">
+    <% if public_only %>
+      <%= link_to "#{tag.title} (#{(tag.bookmarks & @bookmarks).count})", tag_path(tag)%>
+    <%else%>
+      <%= link_to "#{tag.title} (#{(tag.bookmarks & @bookmarks).count})", bookmarks_tags_user_path(current_user,tag)%>
+    <%end%>
+  </span>
+</div>

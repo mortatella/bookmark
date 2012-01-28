@@ -10,7 +10,7 @@ Bitte achtet nur darauf, dass sie korrekt durchlaufen (also zumindest die nicht 
 
 MX * Kommentare in routes.rb unnötig, würde ich entfernen MX
 
-* routes.rb: Routen doppelt definiert, users-Routen aufräumen (unbenutzte Routes, zusammenfassen in einem Block, ev. mehr RESTmäßig aufbauen. #Raidel fragen
+#Raidel fragen* routes.rb: Routen doppelt definiert, users-Routen aufräumen (unbenutzte Routes, zusammenfassen in einem Block, ev. mehr RESTmäßig aufbauen. 
 
 MX * tags_controller: before_filter als protected markieren und unterhalb der Actions platzieren. Außerdem definiert der before_filter Actions, die es gar nicht gibt.  MX
 
@@ -37,11 +37,12 @@ MX * CamelCased AR-Attribute und Methodennamen (Ruby-Konvention hier ist undersc
 
 * User#writeable_lists: ich habe nicht ganz verstanden, wieso die default_list hier herausgenommen wird, ihr solltet das aber DB-seitig machen (z.B. durch die Verwendung eines Scopes) // wieso mit scopes? macht keinen Sinn..
 
-* User#shared_lists: shared_lists könntet ihr auch per Assoziation definieren (z.B. "has_many :shared_lists, :through => :shares, :source => :list"). Auch bei den weiteren Methoden gibt es hier einiges Potential, mehr über AR-Möglichkeiten abzubilden! 
+* User#shared_lists: shared_lists könntet ihr auch per Assoziation definieren (z.B. "has_many :shared_lists, :through => :shares, :source => :list"). 
+Auch bei den weiteren Methoden gibt es hier einiges Potential, mehr über AR-Möglichkeiten abzubilden! 
 
-* Rubyism: keine Klammern bei einer Methode ohne Argumente, kein Semikolon am Ende einer Zeile! Bspw. im shares_controller habt ihr auch einige Tabs (statt 2 Spaces) als Einrückung.
+MX * Rubyism: keine Klammern bei einer Methode ohne Argumente, kein Semikolon am Ende einer Zeile! Bspw. im shares_controller habt ihr auch einige Tabs (statt 2 Spaces) als Einrückung.
 
-* lists_controller#share: tepmlate statt template, manuelle Sortierung statt in der DB, auch das delete sollte in der DB gemacht werden.
+MX* lists_controller#share: tepmlate statt template, manuelle Sortierung statt in der DB, auch das delete sollte in der DB gemacht werden.
 
 * lists_controller#show: es sieht so aus, als würde @tags nicht verwendet, auch diese Operation könnte sonst in der DB stattfinden (außerdem ist die Zeile dupliziert). 
 

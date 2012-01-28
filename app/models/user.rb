@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   
   belongs_to :default_list, :foreign_key=>:default_list_id, :class_name=>'List'
   has_and_belongs_to_many :tags
-  
+  has_many :shared_lists, :through => :shares, :source => :list
   
   has_many :lists
   has_many :bookmarks, :through => :lists
@@ -54,6 +54,10 @@ class User < ActiveRecord::Base
   
   def own_and_shared_bookmarks
     Bookmark.own_and_shared_bookmarks_of_user(self)
+  end
+  
+  def self.all_users_except(user)
+    where(:id_not=>user.id).order("username")
   end
   
 end
