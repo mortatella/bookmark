@@ -1,7 +1,7 @@
 <h1>Bookmarks tagged with </h1>
 <div id="bookmarks_wrapper">
   <div id="bookmarks">
-    <%= render "bookmarks/bookmark", :collection=>@bookmarks, :locals=>{:public_only=>true} %>
+    <%= render :partial=>"bookmarks/bookmark", :collection=>@bookmarks, :locals=>{:public_only=>true} %>
   </div>
 </div>
 <div class="clear"></div>

@@ -57,7 +57,7 @@ class BookmarksController < ApplicationController
      @bookmark.lists.clear
      @bookmark.lists << current_user.default_list
    
-    if !params[:bookmark][:list_ids].nil?
+    if params[:bookmark][:list_ids]
       params[:bookmark][:list_ids].each do |l|
          @bookmark.lists << List.find(l.first)
       end
@@ -102,7 +102,7 @@ class BookmarksController < ApplicationController
   #a redirection to the root is done
   def is_user_allowed_to
     allowed = false
-    if !current_user.bookmarks.find(@bookmark).nil?
+    if current_user.bookmarks.find(@bookmark)
       allowed = true
     else
       write_shares = current_user.shares.find_all{|s| s.write == true}

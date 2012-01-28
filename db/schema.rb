@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111219123841) do
+ActiveRecord::Schema.define(:version => 20120124214117) do
 
   create_table "bookmarks", :force => true do |t|
     t.string   "url"
@@ -92,8 +92,8 @@ ActiveRecord::Schema.define(:version => 20111219123841) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "firstName"
-    t.string   "lastName"
+    t.string   "first_name"
+    t.string   "last_name"
     t.string   "username"
     t.integer  "default_list_id"
   end
