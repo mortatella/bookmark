@@ -47,5 +47,6 @@ module Bookmakr
 	
 	# required for client_side_validations
 	config.autoload_paths << "#{config.root}/lib"
+
   end
 end
