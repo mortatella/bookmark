@@ -1,4 +1,4 @@
 <% bookmarks.each do |b| %>
-  <%= render :partial=>"bookmarks/bookmark", :locals=>{:bookmark=>b, :public_only=>public_only} %>    
+  <%= render "bookmarks/bookmark", :locals=>{:bookmark=>b, :public_only=>public_only} %>    
 <%end%>
 <%= will_paginate bookmarks %>

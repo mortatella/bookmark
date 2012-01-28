@@ -73,6 +73,6 @@ public
     @share = @list.shares.new()
     @users = User.all.sort{|a,b| a.username <=> b.username }
     @users.delete(current_user)
-    render :tepmlate=>'shares/new'
+    render :template=>'shares/new'
   end
 end
