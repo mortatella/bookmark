@@ -41,9 +41,10 @@ MX * CamelCased AR-Attribute und Methodennamen (Ruby-Konvention hier ist undersc
 
 MX * Rubyism: keine Klammern bei einer Methode ohne Argumente, kein Semikolon am Ende einer Zeile! Bspw. im shares_controller habt ihr auch einige Tabs (statt 2 Spaces) als Einrückung.
 
-* lists_controller#share: tepmlate statt template, manuelle Sortierung statt in der DB, auch das delete sollte in der DB gemacht werden.
+MX * lists_controller#share: tepmlate statt template, manuelle Sortierung statt in der DB, auch das delete sollte in der DB gemacht werden.
 
-* lists_controller#show: es sieht so aus, als würde @tags nicht verwendet, auch diese Operation könnte sonst in der DB stattfinden (außerdem ist die Zeile dupliziert). 
+MX * lists_controller#show: es sieht so aus, als würde @tags nicht verwendet, auch diese Operation könnte sonst in der DB stattfinden 
+(außerdem ist die Zeile dupliziert).  doch brauch ma
 
 * shares_controller#create könnte stark vereinfacht werden, vor allem durch ein Übertragen in das Model und Verwenden der AR-Validierungsmöglichkeiten. Eine lokale Variable, die den aktuellen Validierungsstand speichert ist ein guter Indikator dafür, dass die Validierung zu komplex aufgebaut ist.
 

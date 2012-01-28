@@ -24,10 +24,11 @@ public
       @public_only = true
     else
       redirect_to root_path
-    end  
-    
+    end
+      
     if @boomarks
     	@tags = @bookmarks.collect{|b| b.tags}.flatten.uniq.sort{ |a,b| a.bookmarks.count <=> b.bookmarks.count}
+    	
     end  
   end
  
@@ -71,8 +72,7 @@ public
   
   def share
     @share = @list.shares.new
-    @users = User.all.sort{|a,b| a.username <=> b.username }
-    @users.delete(current_user)
+    @users = User.all_users_except(current_user)
     render :template=>'shares/new'
   end
 end
