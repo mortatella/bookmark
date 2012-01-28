@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   
   belongs_to :default_list, :foreign_key=>:default_list_id, :class_name=>'List'
   has_and_belongs_to_many :tags
-  has_many :shared_lists, :through => :shares, :source => :list
+
   
   has_many :lists
   has_many :bookmarks, :through => :lists
@@ -35,17 +35,17 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password
   
   def writable_lists
-    w_lists = lists.to_ary #| shares.select{|s| s.write == true}.collect{|s| s.list}.flatten.uniq
+    w_lists = lists.to_ary
     w_lists.delete(default_list)
     return w_lists
   end
   
   def bookmarks_with_tag(tag)
-    tags.select{|t| t.title == tag.title}.collect{|t| t.bookmarks}.flatten.uniq
+    Bookmark.find_bookmarks_of_user_with_tag(self,tag)
   end
   
   def public_bookmarks_with_tag(tag)
-    bookmarks_with_tag(tag) & public_bookmarks
+    Bookmark.find_public_bookmarks_of_user_with_tag(self,tag)
   end
 
   def public_bookmarks
@@ -54,6 +54,14 @@ class User < ActiveRecord::Base
   
   def own_and_shared_bookmarks
     Bookmark.own_and_shared_bookmarks_of_user(self)
+  end
+  
+  def shared_writable_bookmarks
+    Bookmark.shared_writable_bookmarks_of_user()
+  end
+  
+  def is_bookmark_write_shared(bookmark)
+    Bookmark.has_user_write_share_on_bookmark(self, bookmark)
   end
   
   def self.all_users_except(user)

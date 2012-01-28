@@ -2,6 +2,7 @@ class TagsController < ApplicationController
 
   def show
     @bookmarks = @tag.bookmarks.public.paginate(:page => params[:page])
+    @tags = @bookmarks.collect{|b| b.tags}.flatten.uniq.sort{ |a,b| a.bookmarks.count <=> b.bookmarks.count}
   end
   
   protected 

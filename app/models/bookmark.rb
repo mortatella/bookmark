@@ -10,7 +10,15 @@ class Bookmark < ActiveRecord::Base
   
   #returns all public bookmarks tagged with tag
   def self.find_public_bookmarks_with_tag(tag)
-    public_bookmarks.joins(:tags).where(:tags => {:title => tag})
+    public_bookmarks.joins(:tags).where(:tags => {:title => tag.title})
+  end
+  
+  def self.find_public_bookmarks_of_user_with_tag(user, tag)
+     Bookmark.includes(:lists).where("lists.user_id=? AND lists.public = ?", user.id, true).joins(:tags).where(:tags => {:title => tag.title}).order('bookmarks.created_at DESC')
+  end
+  
+  def self.find_bookmarks_of_user_with_tag(user, tag)
+     Bookmark.includes(:lists).where("lists.user_id=?", user.id).joins(:tags).where(:tags => {:title => tag.title}).order('bookmarks.created_at DESC')
   end
   
   def self.of_user(user)
@@ -42,6 +50,12 @@ class Bookmark < ActiveRecord::Base
     return tags
   end
   
+  def self.has_user_write_share_on_bookmark(user, bookmark)
+    list_ids = user.shares.find_all{|s| s.write == true}.map{|s| s.list}.flatten.map{|l| l.id}.flatten
+    bookmark_list_ids = bookmark.lists.map{|l| l.id}.flatten
+    Bookmark.joins(:lists).where("lists.id IN (?) AND lists.id IN(?)",list_ids, bookmark_list_ids)
+  end
+  
   def set_tags(user, newtags)
     if !newtags.nil?
       newtags.each do |t|
@@ -53,7 +67,7 @@ class Bookmark < ActiveRecord::Base
         if tag.nil?
           tag = user.tags.create(:title=>t)
         else
-          if !user.tags.index(tag).nil?
+          if !user.tags.find(tag)
             user.tags << tag
           end
         end

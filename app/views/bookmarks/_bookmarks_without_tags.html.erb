@@ -1,0 +1,6 @@
+<div id="bookmarks_wrapper">
+  <div id="bookmarks">  
+    <%= render :partial=>"bookmarks/bookmark", :collection=>bookmarks, :locals=>{:public_only=>public_only} %>
+    <%= will_paginate bookmarks %>
+  </div>
+</div>

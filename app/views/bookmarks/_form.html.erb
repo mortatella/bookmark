@@ -7,7 +7,7 @@
     <%="#{l.title}"%><br>
   <% end %>
   <div><%=b.label :tags %>
-  <%= text_field_tag "bookmark[tagstring]", @tags, :'data-autocomplete' => users_autocomplete_tag_title_path, :'data-delimiter' => ',' %>
+  <%= text_field_tag "tagstring", @tags, :'data-autocomplete' => users_autocomplete_tag_title_path, :'data-delimiter' => ',' %>
   <div><%= b.submit %></div>
 <% end %>
 <div class="clear"></div>

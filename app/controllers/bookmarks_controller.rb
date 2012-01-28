@@ -20,7 +20,7 @@ class BookmarksController < ApplicationController
 
 
   def create
-    b = Bookmark.new(:title=>params[:bookmark][:title],:description=>params[:bookmark][:description], :url=>params[:bookmark][:url])
+    b = Bookmark.new(params[:bookmark])
  
     #every bookmark is stored in the users default_list
     b.lists << current_user.default_list
@@ -32,7 +32,7 @@ class BookmarksController < ApplicationController
       end
     end
     
-    tags = Bookmark.parse_tag_string(params[:bookmark][:tagstring])	
+    tags = Bookmark.parse_tag_string(params[:tagstring])	
     
     b.set_tags(current_user, tags)
     
@@ -67,7 +67,7 @@ class BookmarksController < ApplicationController
     
     @bookmark.tags.clear  
     
-    tags = Bookmark.parse_tag_string(params[:bookmark][:tagstring])	
+    tags = Bookmark.parse_tag_string(params[:tagstring])	
     @bookmark.set_tags(current_user, tags)    
 
     @bookmark.update_attributes(:url => params[:bookmark][:url], :title => params[:bookmark][:title])
@@ -98,24 +98,20 @@ class BookmarksController < ApplicationController
     @bookmark = Bookmark.find(params[:id])
   end
   
+  
+  
   #if the user is not allowed to do the current action,
   #a redirection to the root is done
   def is_user_allowed_to
-    allowed = false
-    if current_user.bookmarks.find(@bookmark)
-      allowed = true
-    else
-      write_shares = current_user.shares.find_all{|s| s.write == true}
-      write_shares.each do |s|
-        if @bookmark.lists.index(s.list)
-          allowed = true
-        end
-      end
+    
+    if !@bookmark.lists.find_all{|l| l.user == current_user}.empty?
+      return
+    end
+    else if(!current_user.is_bookmark_write_shared(@bookmark).empty?)
+	return  
     end
 
-    if !allowed
-      redirect_to root_path
-    end
+    redirect_to root_path
   end
 
 end

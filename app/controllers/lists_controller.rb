@@ -71,7 +71,8 @@ public
   
   def share
     @share = @list.shares.new
-    @users = User.all_users_except current_user
+    @users = User.all.sort{|a,b| a.username <=> b.username }
+    @users.delete(current_user)
     render :template=>'shares/new'
   end
 end
