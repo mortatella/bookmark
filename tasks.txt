@@ -2,7 +2,8 @@
 
 MX * Kommentare in routes.rb unnötig, würde ich entfernen MX
 
-#Raidel fragen* routes.rb: Routen doppelt definiert, users-Routen aufräumen (unbenutzte Routes, zusammenfassen in einem Block, ev. mehr RESTmäßig aufbauen. 
+#Raidel fragen* routes.rb: Routen doppelt definiert, users-Routen aufräumen 
+(unbenutzte Routes, zusammenfassen in einem Block, ev. mehr RESTmäßig aufbauen. 
 
 MX * tags_controller: before_filter als protected markieren und unterhalb der Actions platzieren. Außerdem definiert der before_filter Actions, die es gar nicht gibt.  MX
 
@@ -10,7 +11,8 @@ MX * bookmarks_controller: Kommentare bei den before_filters eigentlich unnötig
 
 MX * bookmarks_controller: set_tags und parse_tag_string sollten im Model (Bookmark) sein. MX
 
-*Auch die Zuweisung der Listen könnte man vereinfachen und aus dem Controller entfernen (für solche Fälle eignet sich oft accepts_nested_attributes_for, in diesem Fall sollte aber die direkte Zuweisung ausreichend sein, da list_ids= eine automatisch generierte Methode der has_and_belongs_to_many-Beziehung ist!). 
+*Auch die Zuweisung der Listen könnte man vereinfachen und aus dem Controller entfernen 
+(für solche Fälle eignet sich oft accepts_nested_attributes_for, in diesem Fall sollte aber die direkte Zuweisung ausreichend sein, da list_ids= eine automatisch generierte Methode der has_and_belongs_to_many-Beziehung ist!). 
 
 MX * Noch etwas zu set_tags: ihr solltet direkt die AR-Beziehung zum Finden verwenden, dann spart ihr euch das aufwändige Vergleichen, 
 ob das auch ein Tag des Users ist (z.B. "current_user.tags.find(...))
