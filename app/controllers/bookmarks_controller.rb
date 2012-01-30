@@ -22,11 +22,6 @@ class BookmarksController < ApplicationController
   def create
     
 
-    #iterates through all checked lists the user has selected in the form
-    if params[:bookmark][:list_ids]
-      params[:bookmark][:list_ids].each do |l|
-         b.lists << List.find(l.first)
-      end
 
     if params[:bookmark][:list_ids] 
       params[:bookmark][:list_ids] << current_user.default_list.id
@@ -35,6 +30,7 @@ class BookmarksController < ApplicationController
 
     end
     
+
     b = Bookmark.new(params[:bookmark])
 
     tags = Bookmark.parse_tag_string(params[:tagstring])	
@@ -63,12 +59,6 @@ class BookmarksController < ApplicationController
     tags = Bookmark.parse_tag_string(params[:tagstring])	
     @bookmark.set_tags(current_user, tags)    
     
-    if params[:bookmark][:list_ids] 
-      params[:bookmark][:list_ids] << current_user.default_list.id
-    else
-      params[:bookmark][:list_ids] = current_user.default_list.id
-    end
-    
     @bookmark.update_attributes(params[:bookmark])
     redirect_to bookmarks_user_path(current_user)
   end
@@ -91,6 +81,7 @@ class BookmarksController < ApplicationController
   
   before_filter :is_user_allowed_to, :except=>[:index, :new, :create, :destroy]
   
+  before_filter :add_default_list_to_params, :only=>[:create, :update]
   
   #gets the bookmark defined by the id in the params-field
   def get_bookmark
@@ -110,6 +101,14 @@ class BookmarksController < ApplicationController
     end
 
     redirect_to root_path
+  end
+  
+  def add_default_list_to_params
+    if params[:bookmark][:list_ids] 
+      params[:bookmark][:list_ids] << current_user.default_list.id
+    else
+      params[:bookmark][:list_ids] = current_user.default_list.id
+    end
   end
 
 end
