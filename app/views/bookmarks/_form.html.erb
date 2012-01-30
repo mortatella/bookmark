@@ -3,8 +3,7 @@
   <div><%= b.label :url %><%= b.url_field :url %></div>
   <label for="lists">Bookmark Lists</label><br>
   <% @available_lists.each do |l| %>
-    <%= check_box_tag("bookmark[list_ids][#{l.id}]", "1", @bookmark.lists.detect{|d| d == l}) %>
-    <%="#{l.title}"%><br>
+    <%= check_box_tag "bookmark[list_ids][]", l.id, @bookmark.lists.detect{|d| d == l} %> <%="#{l.title}"%><br>
   <% end %>
   <div><%=b.label :tags %>
   <%= text_field_tag "tagstring", @tags, :'data-autocomplete' => users_autocomplete_tag_title_path, :'data-delimiter' => ',' %>

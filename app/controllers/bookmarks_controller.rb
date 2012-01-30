@@ -20,18 +20,15 @@ class BookmarksController < ApplicationController
 
 
   def create
-    b = Bookmark.new(params[:bookmark])
- 
-    #every bookmark is stored in the users default_list
-    b.lists << current_user.default_list
     
-    #iterates through all checked lists the user has selected in the form
-    if !params[:bookmark][:list_ids].nil?
-      params[:bookmark][:list_ids].each do |l|
-         b.lists << List.find(l.first)
-      end
+    if params[:bookmark][:list_ids] 
+      params[:bookmark][:list_ids] << current_user.default_list.id
+    else
+      params[:bookmark][:list_ids] = current_user.default_list.id
     end
     
+    b = Bookmark.new(params[:bookmark])
+
     tags = Bookmark.parse_tag_string(params[:tagstring])	
     
     b.set_tags(current_user, tags)
@@ -52,25 +49,19 @@ class BookmarksController < ApplicationController
   end
 
   def update
-    #listen löschen und neu setzen
-     tmpList = @bookmark.lists.to_ary - current_user.lists
-     @bookmark.lists.clear
-     @bookmark.lists << current_user.default_list
-   
-    if params[:bookmark][:list_ids]
-      params[:bookmark][:list_ids].each do |l|
-         @bookmark.lists << List.find(l.first)
-      end
-    end 
-    
-    @bookmark.lists << tmpList
     
     @bookmark.tags.clear  
     
     tags = Bookmark.parse_tag_string(params[:tagstring])	
     @bookmark.set_tags(current_user, tags)    
-
-    @bookmark.update_attributes(:url => params[:bookmark][:url], :title => params[:bookmark][:title])
+    
+    if params[:bookmark][:list_ids] 
+      params[:bookmark][:list_ids] << current_user.default_list.id
+    else
+      params[:bookmark][:list_ids] = current_user.default_list.id
+    end
+    
+    @bookmark.update_attributes(params[:bookmark])
     redirect_to bookmarks_user_path(current_user)
   end
 
