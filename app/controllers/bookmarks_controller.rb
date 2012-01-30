@@ -26,7 +26,7 @@ class BookmarksController < ApplicationController
     b.lists << current_user.default_list
     
     #iterates through all checked lists the user has selected in the form
-    if !params[:bookmark][:list_ids].nil?
+    if params[:bookmark][:list_ids]
       params[:bookmark][:list_ids].each do |l|
          b.lists << List.find(l.first)
       end
