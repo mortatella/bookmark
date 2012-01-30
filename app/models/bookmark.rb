@@ -67,7 +67,7 @@ class Bookmark < ActiveRecord::Base
         if tag.nil?
           tag = user.tags.create(:title=>t)
         else
-          if !user.tags.find(tag)
+          if !Tag.find_user_tag_by_title(user,tag)
             user.tags << tag
           end
         end

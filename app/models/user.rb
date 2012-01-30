@@ -15,8 +15,7 @@ class User < ActiveRecord::Base
   has_many :bookmarks, :through => :lists
   has_many :shares
   
-  
-#  scope :writable_lists, includes(:lists).where('lists.id _not'=>user.default_list.id)
+
   
   def writable_lists
     w_lists = lists.to_ary | shares.select{|s| s.write == true}.collect{|s| s.list}.flatten.uniq
@@ -33,12 +32,7 @@ class User < ActiveRecord::Base
   validates :password, :presence => true
   validates :password_confirmation, :presence => true
   validates_confirmation_of :password
-  
-  def writable_lists
-    w_lists = lists.to_ary
-    w_lists.delete(default_list)
-    return w_lists
-  end
+
   
   def bookmarks_with_tag(tag)
     Bookmark.find_bookmarks_of_user_with_tag(self,tag)

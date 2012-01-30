@@ -12,4 +12,8 @@ class Tag < ActiveRecord::Base
   def title=(title)
     write_attribute(:title, title.strip.downcase)
   end
+  
+  def self.find_user_tag_by_title(user, tag)
+    Tag.where("title = ? AND user_id = ?",tag.title, user.id);
+  end	
 end

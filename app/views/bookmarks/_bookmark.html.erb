@@ -18,7 +18,7 @@
           <% if public_only == true %>
             <%= link_to t.title, tag_path(t) %><%= (bookmark.tags.last != t) ? " ," : ""%>
           <%else%>
-            <%= link_to t.title, bookmarks_tags_user_path(current_user, t) %><%= (bookmark.tags.last != t) ? " ," : ""%>
+            <%= link_to t.title, user_tag_path(current_user, t) %><%= (bookmark.tags.last != t) ? " ," : ""%>
           <%end%>
         <%end%>
         <strong>]</strong>

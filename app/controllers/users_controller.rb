@@ -11,21 +11,6 @@ class UsersController < ApplicationController
     @tags = @bookmarks.collect{|b| b.tags}.flatten.sort{ |a,b| a.bookmarks.count <=> b.bookmarks.count}.uniq
   end 
   
-  def tag
-    @tag = Tag.find(params[:tag_id])
-    
-    if current_user == @user 
-      @bookmarks = current_user.bookmarks_with_tag(@tag).paginate(:page => params[:page])
-      @public_only = false
-    else
-      @bookmarks = @user.public_bookmarks_with_tag(@tag).paginate(:page => params[:page])
-      @public_only = true
-    end
-    
-    @tags = @bookmarks.collect{|b| b.tags}.flatten.uniq.sort{ |a,b| a.bookmarks.count <=> b.bookmarks.count}
-    @public_only = true
-  end
-  
   protected
   
   autocomplete :tag, :title

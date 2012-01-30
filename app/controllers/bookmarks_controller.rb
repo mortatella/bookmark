@@ -103,7 +103,6 @@ class BookmarksController < ApplicationController
   #if the user is not allowed to do the current action,
   #a redirection to the root is done
   def is_user_allowed_to
-    
     if !@bookmark.lists.find_all{|l| l.user == current_user}.empty?
       return
     end
