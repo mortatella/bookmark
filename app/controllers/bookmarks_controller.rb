@@ -18,10 +18,7 @@ class BookmarksController < ApplicationController
     redirect_to(request.env["HTTP_REFERER"])
   end
 
-
   def create
-    
-
 
     if params[:bookmark][:list_ids] 
       params[:bookmark][:list_ids] << current_user.default_list.id
@@ -30,7 +27,6 @@ class BookmarksController < ApplicationController
 
     end
     
-
     b = Bookmark.new(params[:bookmark])
 
     tags = Bookmark.parse_tag_string(params[:tagstring])	
@@ -53,13 +49,20 @@ class BookmarksController < ApplicationController
   end
 
   def update
-    
     @bookmark.tags.clear  
-    
+    foreign_lists = Array.new
     tags = Bookmark.parse_tag_string(params[:tagstring])	
     @bookmark.set_tags(current_user, tags)    
-    
+    lists = @bookmark.lists
+	lists.each do |l|
+	  if l.user_id != current_user.id
+        foreign_lists << l
+	  end
+	end
     @bookmark.update_attributes(params[:bookmark])
+	foreign_lists.each do |l|
+	  @bookmark.lists << l
+	end
     redirect_to bookmarks_user_path(current_user)
   end
 
@@ -87,8 +90,6 @@ class BookmarksController < ApplicationController
   def get_bookmark
     @bookmark = Bookmark.find(params[:id])
   end
-  
-  
   
   #if the user is not allowed to do the current action,
   #a redirection to the root is done
