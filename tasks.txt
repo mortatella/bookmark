@@ -51,7 +51,10 @@ MX * lists_controller#share: tepmlate statt template, manuelle Sortierung statt 
 MX * lists_controller#show: es sieht so aus, als würde @tags nicht verwendet, auch diese Operation könnte sonst in der DB stattfinden 
 (außerdem ist die Zeile dupliziert).  doch brauch ma
 
-* shares_controller#create könnte stark vereinfacht werden, vor allem durch ein Übertragen in das Model und Verwenden der AR-Validierungsmöglichkeiten. Eine lokale Variable, die den aktuellen Validierungsstand speichert ist ein guter Indikator dafür, dass die Validierung zu komplex aufgebaut ist.
+* shares_controller#create könnte stark vereinfacht werden, 
+vor allem durch ein Übertragen in das Model und Verwenden der AR-Validierungsmöglichkeiten. 
+Eine lokale Variable, die den aktuellen Validierungsstand speichert ist ein guter Indikator dafür, 
+dass die Validierung zu komplex aufgebaut ist.
 
 MX * in Partials sollten keine Instanzvariablen verwendet werden (verschlechtert die Übersicht, ähnlich wie bei globalen Variablen)
 ->done * statt 'render :partial => "form"' könnt ihr einfach 'render "form"' schreiben
