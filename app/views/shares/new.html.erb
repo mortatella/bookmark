@@ -1,11 +1,13 @@
 <%= form_for(@share) do |f| %>
- <% if @all_errors %>
+
+<% if @share.errors.full_messages.any? %>
+
   <ul>
-  <% @all_errors.each do |e| %>
-    <li><%= e[0] %> <%= e[1] %></li>
-  <% end %>
+    <li>
+     <%= @share.errors.full_messages.first if @share.errors.any? %>
+	</li>
   </ul>
- <% end %>
+<% end %>
   
   <div><%= f.label :write%><%=f.check_box :write%></div>
   <div>
