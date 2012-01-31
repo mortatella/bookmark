@@ -53,8 +53,8 @@ class BookmarksController < ApplicationController
     foreign_lists = Array.new
     tags = Bookmark.parse_tag_string(params[:tagstring])	
     @bookmark.set_tags(current_user, tags)    
-    lists = @bookmark.lists
-	lists.each do |l|
+    
+	@bookmark.lists.each do |l|
 	  if l.user_id != current_user.id
         foreign_lists << l
 	  end
